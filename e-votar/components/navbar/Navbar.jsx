@@ -10,7 +10,9 @@ const Navbar = () => {
                     <Link className='font-bold' href={'/'}>E-votar</Link>
                 </div>
                 <div className='flex gap-5 items-center'>
-                    <p className='cursor-pointer'>Votações</p>
+                    <Link href={'/'} 
+                    className='cursor-pointer transition ease-in delay-50 hover:-translate-y-1 hover:text-slate-300'>
+                        Votações</Link>
                     <p className='cursor-pointer'>Login</p>
                 </div>
 
