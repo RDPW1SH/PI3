@@ -21,7 +21,39 @@ body {
 
 }
 
+.shadow-lg {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+
 #footer-links-animation:hover {
   background-position: -100% 0;
 }
+
+.card {
+  transition: transform 0.3s ease-in-out;
+}
+.card:hover {
+  transform: scale(1.05);
+}
+
+.bg-gradient-animated {
+  background: linear-gradient(270deg, #9f7aea, #6b46c1, #2d3748);
+  background-size: 400% 400%;
+  animation: gradientMove 8s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
 
