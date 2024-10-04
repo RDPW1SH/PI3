@@ -82,13 +82,13 @@ const Footer = () => {
               follow us
             </h4>
             <div className="flex flex-wrap gap-4">
-              <Link href="#" className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary  transition-all duration-500">
+              <Link href="#" className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary transition-all duration-500">
                 <FaTwitter className='text-2xl'/>
               </Link>
               <Link href="#" className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary transition-all duration-500">
                 <RiInstagramFill className='text-2xl'/>
               </Link>
-              <Link href="#" className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center leading-10 text-white hover:bg-primaryDark hover:text-secondary  transition-all duration-500">
+              <Link href="#" className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary transition-all duration-500">
                 <FaLinkedin className='text-2xl'/>
               </Link>
             </div>
