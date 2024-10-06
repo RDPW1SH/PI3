@@ -1,25 +1,26 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/database'; // Assuming you have a sequelize instance setup
+import { Sequelize } from 'sequelize';
 
-const Forms = sequelize.define('Forms', {
+
+const Forms = Sequelize.define('Forms', {
     title: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
-            len: [5, 50], // Length validation (min: 5, max: 50)
+            len: [5, 50], // Length validation 
         },
     },
     description: {
-        type: DataTypes.STRING(255), // Max length: 255
+        type: DataTypes.STRING(255),
         allowNull: false,
     },
     userId: {
-        type: DataTypes.INTEGER, // Assuming userId is an integer foreign key
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: 'Users', // References the 'Users' table
-            key: 'id',      // Foreign key that links to Users
+            key: 'id',      // Foreign key
         }
     },
     start_date: {

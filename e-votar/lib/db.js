@@ -1,30 +1,62 @@
 'use server';
-import mysql from 'mysql2/promise';  
+import mysql from 'mysql2/promise';
+import Forms from '@/models/forms';
+import User from '@/models/users';
 
-let connection; 
+let connection;
 
 export const connectToDB = async () => {
 
+    // Check if connection exists
     if (connection) {
         console.log('Already connected to the database');
-        return connection;  
+        return 'ty';
     }
 
     try {
-       
+
+        // Connect to MySQL 
         connection = await mysql.createConnection({
             host: process.env.MYSQL_HOST,      // MySQL host 
             user: process.env.MYSQL_USER,      // MySQL username
             password: process.env.MYSQL_PASSWORD,  // MySQL password
-            database: process.env.MYSQL_DB,    // MySQL database name
-            port: process.env.MYSQL_PORT // Optional port 
         });
 
-        console.log('Connected to MySQL');
+        // Check if the DB exists
+        const [rows] = await connection.query(
+            `SHOW DATABASES LIKE '${process.env.MYSQL_DB}'`
+        );
 
-        return connection;
+        if (rows.length === 0) {
+            console.log(`Database ${process.env.MYSQL_DB} not found. Creating...`);
+            await connection.query(`CREATE DATABASE ${process.env.MYSQL_DB}`);
+            console.log(`Database ${process.env.MYSQL_DB} created successfully.`);
+        }
+
+        // Connect to the right DB
+        await connection.changeUser({ database: process.env.MYSQL_DB });
+        await createDbModels();
+
+        console.log('Connected to the database');
+        return 'yupi';
+
     } catch (err) {
         console.log('Could not establish connection with the database', err);
-        throw err; 
+        throw err;
+    }
+};
+
+const createDbModels = async () => {
+    try {
+        // Sync the models
+        await User.sync({ alter: true });
+        console.log('User table checked/created.');
+
+        await Forms.sync({ alter: true });
+        console.log('Forms table checked/created.');
+
+    } catch (err) {
+        console.error('Error syncing tables:', err);
+        throw err;
     }
 };
