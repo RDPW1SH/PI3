@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
-import { Sequelize } from 'sequelize';
+import sequelize from '@/lib/sequelize';
 
-const User = Sequelize.define('User', {
+const User = sequelize.define('User', {
     username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -37,7 +37,9 @@ const User = Sequelize.define('User', {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-    }
+    },
+
+    
 }, {
     timestamps: true, // Adds `createdAt` and `updatedAt` columns
 });

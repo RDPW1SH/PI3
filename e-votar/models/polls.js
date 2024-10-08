@@ -1,14 +1,13 @@
 import { DataTypes } from 'sequelize';
-import { Sequelize } from 'sequelize';
+import sequelize from '@/lib/sequelize';
 
-
-const Forms = Sequelize.define('Forms', {
+const Polls = sequelize.define('Polls', {
     title: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
-            len: [5, 50], // Length validation 
+            len: [5, 50],
         },
     },
     description: {
@@ -19,14 +18,14 @@ const Forms = Sequelize.define('Forms', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Users', // References the 'Users' table
-            key: 'id',      // Foreign key
+            model: 'Users', // 'Users' table needs to exist
+            key: 'id',
         }
     },
     start_date: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW, // Defaults to current date if not provided
+        defaultValue: DataTypes.NOW,
     },
     end_date: {
         type: DataTypes.DATE,
@@ -38,7 +37,7 @@ const Forms = Sequelize.define('Forms', {
         defaultValue: 'visible',
     }
 }, {
-    timestamps: true, // Adds `createdAt` and `updatedAt` columns
+    timestamps: true,
 });
 
-export default Forms;
+export default Polls;

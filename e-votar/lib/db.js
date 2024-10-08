@@ -1,6 +1,6 @@
 'use server';
 import mysql from 'mysql2/promise';
-import Forms from '@/models/forms';
+import Forms from '@/models/polls';
 import User from '@/models/users';
 
 let connection;
@@ -35,7 +35,6 @@ export const connectToDB = async () => {
 
         // Connect to the right DB
         await connection.changeUser({ database: process.env.MYSQL_DB });
-        await createDbModels();
 
         console.log('Connected to the database');
         return 'yupi';
@@ -46,17 +45,3 @@ export const connectToDB = async () => {
     }
 };
 
-const createDbModels = async () => {
-    try {
-        // Sync the models
-        await User.sync({ alter: true });
-        console.log('User table checked/created.');
-
-        await Forms.sync({ alter: true });
-        console.log('Forms table checked/created.');
-
-    } catch (err) {
-        console.error('Error syncing tables:', err);
-        throw err;
-    }
-};
