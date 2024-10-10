@@ -20,7 +20,7 @@ const Navbar = () => {
                         Login</Link>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
