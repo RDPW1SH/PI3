@@ -1,30 +1,35 @@
 'use server';
-import mysql from 'mysql2/promise';  
+import { User, Polls, Votes } from '@/models';
+import { Sequelize } from 'sequelize';
 
-let connection; 
+let sequelize;
 
 export const connectToDB = async () => {
-
-    if (connection) {
+    // Check if a connection already exists
+    if (sequelize) {
         console.log('Already connected to the database');
-        return connection;  
+        return 'ye';
     }
 
     try {
-       
-        connection = await mysql.createConnection({
-            host: process.env.MYSQL_HOST,      // MySQL host 
-            user: process.env.MYSQL_USER,      // MySQL username
-            password: process.env.MYSQL_PASSWORD,  // MySQL password
-            database: process.env.MYSQL_DB,    // MySQL database name
-            port: process.env.MYSQL_PORT // Optional port 
+        // Create a new Sequelize connection
+        sequelize = new Sequelize(process.env.DATABASE_URL, {
+            dialect: 'mysql',
+            dialectModule: require('mysql2'),
         });
 
-        console.log('Connected to MySQL');
+        // Test connection
+        await sequelize.authenticate();
+        console.log('Connected to the database');
 
-        return connection;
-    } catch (err) {
-        console.log('Could not establish connection with the database', err);
-        throw err; 
+        // Sync models to the database if needed
+        await sequelize.sync({ alter: true });
+        console.log('Database & tables synced');
+
+        return 'yo';
+
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+        throw error;
     }
 };

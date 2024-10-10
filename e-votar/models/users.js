@@ -1,20 +1,21 @@
+// models/user.js
 import { DataTypes } from 'sequelize';
-import Sequelize from 'sequelize';
+import sequelize from '@/lib/sequelize';
 
-const User = sequelize.define('User', {
+const Users = sequelize.define('Users', {
     username: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
-            len: [4, 20], 
+            len: [4, 20],
         },
     },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            len: [6, 20], 
+            len: [6, 20],
         }
     },
     email: {
@@ -30,16 +31,16 @@ const User = sequelize.define('User', {
         allowNull: false,
         unique: true,
         validate: {
-            isLowercase: true, 
+            isLowercase: true,
         }
     },
     isAdmin: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false, 
-    }
+        defaultValue: false,
+    },
 }, {
     timestamps: true, // Adds `createdAt` and `updatedAt` columns
 });
 
-export default User;
+export default Users;
