@@ -1,7 +1,8 @@
+// models/user.js
 import { DataTypes } from 'sequelize';
 import sequelize from '@/lib/sequelize';
 
-const User = sequelize.define('User', {
+const Users = sequelize.define('Users', {
     username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -38,10 +39,8 @@ const User = sequelize.define('User', {
         allowNull: false,
         defaultValue: false,
     },
-
-    
 }, {
     timestamps: true, // Adds `createdAt` and `updatedAt` columns
 });
 
-export default User;
+export default Users;

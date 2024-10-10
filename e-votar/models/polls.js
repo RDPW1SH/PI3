@@ -1,3 +1,4 @@
+// models/polls.js
 import { DataTypes } from 'sequelize';
 import sequelize from '@/lib/sequelize';
 
@@ -17,10 +18,6 @@ const Polls = sequelize.define('Polls', {
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'Users', // 'Users' table needs to exist
-            key: 'id',
-        }
     },
     start_date: {
         type: DataTypes.DATE,
