@@ -1,9 +1,8 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 
 const Navbar = () => {
     return (
-
         <>
             <div className='flex py-3 px-5 h-auto w-full bg-primary justify-between text-white text-xl items-center'>
                 <div className='flex flex-col'>
@@ -21,8 +20,8 @@ const Navbar = () => {
                         Login</Link>
                 </div>
             </div>
-        </>
-    )
+        </div>
+    );
 }
 
-export default Navbar
+export default Navbar;
