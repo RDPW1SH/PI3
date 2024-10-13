@@ -21,15 +21,7 @@ export default function Home() {
         <HomepageSearchInput />
       </div>
       <div className="flex gap-5 p-5 justify-center">
-        <div className="flex flex-col w-[300px] h-[200px] bg-primaryLight text-white shadow-lg rounded-md p-5 justify-between items-center">
-          <h1 className="text-xl font-semibold">Fácil e rapido</h1>
-          <p className="text-lg">Crie votações facilmente quer seja para trabalho ou para diversão</p>
-        </div>
-
-        <div className="flex flex-col w-[300px] h-[200px] bg-primaryLight shadow-xl rounded-md p-5 justify-between items-center">
-          <h1 className="text-xl font-semibold">Grátis para usar</h1>
-          <p className="text-lg">Não pague pelo que vai usar. Simples e barato</p>
-        </div>
+        
       </div>
     </div>
   );

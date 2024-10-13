@@ -12,7 +12,7 @@ export const connectToDB = async () => {
     }
 
     try {
-        // Create a new Sequelize connection
+        
         sequelize = new Sequelize(process.env.DATABASE_URL, {
             dialect: 'mysql',
             dialectModule: require('mysql2'),
