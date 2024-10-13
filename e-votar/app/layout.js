@@ -2,7 +2,7 @@
 import Navbar from "@/components/navbar/Navbar";
 import "./globals.css";
 import Footer from "@/components/footer/Footer";
-import SessionAuthProvider from "@/components/session-provider/SessionProvider";
+import { AuthProvider } from "@/components/session-provider/SessionProvider";
 
 export const metadata = {
   title: "E-votar",
@@ -12,15 +12,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <SessionAuthProvider>
+      <AuthProvider>
         <body className='min-h-screen flex flex-col'>
-          <Navbar/>
-            <div className='flex-grow'>
-              {children}
-            </div>  
-          <Footer/>
-      </body>
-      </SessionAuthProvider>
+          <Navbar />
+          <div className='flex-grow'>
+            {children}
+          </div>
+          <Footer />
+        </body>
+      </AuthProvider>
     </html>
   );
 }

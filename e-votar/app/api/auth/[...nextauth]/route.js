@@ -1,57 +1,63 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from "next-auth";
 import { connectToDB } from "@/lib/db";
 import { Users } from "@/models";
 
-providers: [
-  CredentialsProvider({
-    name: "Credentials",
-    credentials: {
-      email: { label: "email", type: "text", placeholder: "jsmith" },
-      password: { label: "password", type: "password" }
-    },
-    async authorize(credentials, req) {
+const handler = NextAuth({
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        try {
+          // Connect to MySQL
+          await connectToDB();
 
-      try {
+          // Find the user by email
+          const user = await Users.findOne({ where: { email: credentials.email } });
 
-        // Connect to MySql
-        await connectToDB();
+          if (!user) {
+            throw new Error("No user found with the given email");
 
-        const email = Users.findOne({where: req.email === credentials.email});
+          } else {
 
-        if(email) {
-
-          const password = Users.findOne({where: req.password === credentials.password});
-
-          if(password) {
-            
+            if (user.password === credentials.password) {
+              return {
+                id: user.id,
+                email: user.email,
+              };
+            } else {
+              throw new Error("Wrong email/password");
+            }
           }
+        } catch (error) {
+          throw new Error(error);
         }
-
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-        }
-      } catch (error) {
-
+      },
+    })
+  ],
+  callbacks: {
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
       }
-
-
-
-
-
+      return session;
     },
-    async session() {
-
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
     },
-    pages: {
-      login: './login',
-      register: './register',
-      forgot_password: './forgot-password',
-    }
-  })
-]
+  },
+  pages: {
+    signIn: '/login',
+    newUser: '/register'
+  },
+  secret: process.env.NEXTAUTH_SECRET
+});
+
+export { handler as GET, handler as POST };
