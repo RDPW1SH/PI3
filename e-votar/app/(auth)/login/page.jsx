@@ -28,8 +28,6 @@ const LoginPage = () => {
 
     if (login.error) {
       setErrorMessage(login.error);
-    } else {
-      router.push('/');
     }
   };
 
