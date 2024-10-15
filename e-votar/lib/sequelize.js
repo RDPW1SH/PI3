@@ -7,6 +7,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 });
 
 // Sync models to database only on first start
+
 const syncDatabase = async () => {
 
     if (process.env.SYNC_DB === 'true') {

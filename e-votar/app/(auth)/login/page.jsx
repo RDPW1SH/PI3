@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
   const { data: session } = useSession({});
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
@@ -17,8 +19,6 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-    const email = e.target.email.value;
-    const password = e.target.password.value;
 
     const login = await signIn('credentials', {
       redirect: false,
@@ -46,6 +46,8 @@ const LoginPage = () => {
               type="email"
               id="email"
               name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="p-3 rounded-md text-black bg-gray-200 border border-purple-500"
               placeholder="Insira o seu e-mail"
             />
@@ -57,6 +59,8 @@ const LoginPage = () => {
               type="password"
               id="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="p-3 rounded-md text-black bg-gray-200 border border-purple-500"
               placeholder="Insira a sua senha"
             />

@@ -25,6 +25,7 @@ const handler = NextAuth({
           } else {
 
             if (user.password === credentials.password) {
+              delete user.password
               return {
                 id: user.id,
                 email: user.email,
