@@ -15,7 +15,7 @@ const RegisterPage = () => {
     repeatPassword: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
-  const router = useRouter('7')
+  const router = useRouter()
 
   async function handleRegister(e) {
 
@@ -43,7 +43,7 @@ const RegisterPage = () => {
       const data = await response.json();
       
       if (response.ok) {
-        Router.push('/')
+        router.push('/')
       } else {
         setErrorMessage(data.message); // Error message
       }

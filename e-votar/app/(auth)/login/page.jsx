@@ -5,6 +5,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
+  
   const { data: session } = useSession({});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')

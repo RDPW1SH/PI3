@@ -5,29 +5,23 @@ import { useEffect } from "react";
 
 export default function VotingPage() {
 
+  const [loading, setLoading] = useState('')
+  const [polls, setPolls] = useState('')
   useEffect(() => {
-    async function getData() {
-      const db = await connectToDB();
-
-      if (db) {
-        console.log('Connected successfully');
+    async function handlePolls() {
+      try {
+        const response = await fetch('/api/polls', {
+          cache: 'no-cache'
+        })
+        const data = await response.json()
+        setPolls(data)
+      } catch (error) {
+        return 'a'
       }
+
     }
-    getData();
-  }, []);
-
-  const votingOptions = [
-    { id: 1, title: "Votação 1", description: "Descrição da Votação 1" },
-    { id: 2, title: "Votação 2", description: "Descrição da Votação 2" },
-    { id: 3, title: "Votação 3", description: "Descrição da Votação 3" },
-    { id: 4, title: "Votação 4", description: "Descrição da Votação 4" },
-    { id: 5, title: "Votação 5", description: "Descrição da Votação 5" },
-    { id: 6, title: "Votação 6", description: "Descrição da Votação 6" },
-    { id: 7, title: "Votação 7", description: "Descrição da Votação 7" },
-    { id: 8, title: "Votação 8", description: "Descrição da Votação 8" },
-    { id: 8, title: "Votação 9", description: "Descrição da Votação 9" },
-
-  ];
+    handlePolls()
+  }, [])
 
   return (
     <div className="flex flex-col w-[100%]">
