@@ -39,7 +39,7 @@ export async function POST(req) {
                 username,
                 email,
                 password: hashedPassword,
-                slug: username,
+                slug: username.toLowerCase(),
             })
                 
             return NextResponse.json({ message: `User criado com sucesso`}, { status: 201 })

@@ -4,12 +4,9 @@ import sequelize from '@/lib/sequelize';
 
 const Polls = sequelize.define('Polls', {
     title: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(20),
         allowNull: false,
         unique: true,
-        validate: {
-            len: [5, 50],
-        },
     },
     description: {
         type: DataTypes.STRING(255),

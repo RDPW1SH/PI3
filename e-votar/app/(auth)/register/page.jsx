@@ -15,7 +15,7 @@ const RegisterPage = () => {
     repeatPassword: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
-  const router = useRouter()
+  const router = useRouter();
 
   async function handleRegister(e) {
 
@@ -30,22 +30,22 @@ const RegisterPage = () => {
       }
 
       setErrorMessage('')
-      const response = await fetch('/api/auth/register', {
+      const res = await fetch('/api/auth/register', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData)
 
-
       })
 
-      const data = await response.json();
       
-      if (response.ok) {
+      
+      if (res.ok) {
         router.push('/')
       } else {
-        setErrorMessage(data.message); // Error message
+        const response = await res.json();
+        setErrorMessage(response.message); // Error message
       }
 
     } catch (error) {

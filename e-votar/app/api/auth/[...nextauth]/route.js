@@ -12,6 +12,7 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
+        
         try {
           // Connect to MySQL
           await connectToDB();

@@ -1,5 +1,4 @@
 'use server';
-import { User, Polls, Votes } from '@/models';
 import { Sequelize } from 'sequelize';
 
 let sequelize;
