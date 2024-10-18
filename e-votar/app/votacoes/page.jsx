@@ -1,27 +1,25 @@
 'use client';
 import HomepageSearchInput from "@/components/inputs/HomepageSearchInput";
-import { connectToDB } from "@/lib/db";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function VotingPage() {
+  const [loading, setLoading] = useState(false);
+  const [polls, setPolls] = useState([]); // Inicializa com um array vazio
 
-  const [loading, setLoading] = useState('')
-  const [polls, setPolls] = useState('')
   useEffect(() => {
     async function handlePolls() {
       try {
         const response = await fetch('/api/polls', {
           cache: 'no-cache'
-        })
-        const data = await response.json()
-        setPolls(data)
+        });
+        const data = await response.json();
+        setPolls(data); // Atualiza com os dados do servidor
       } catch (error) {
-        return 'a'
+        console.error("Erro ao buscar os dados das votações:", error);
       }
-
     }
-    handlePolls()
-  }, [])
+    handlePolls();
+  }, []);
 
   return (
     <div className="flex flex-col w-[100%]">
@@ -29,16 +27,24 @@ export default function VotingPage() {
         <h1 className="text-3xl font-semibold text-white">Participe das Votações</h1>
         <HomepageSearchInput />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 justify-center mx-auto max-w-[1000px]">
-        {votingOptions.map(option => (
-          <div key={option.id} className="p-5 border rounded-lg bg-white shadow-md w-full max-w-[350px]">
-            <h2 className="text-lg font-semibold">{option.title}</h2>
-            <p className="text-sm text-gray-600">{option.description}</p>
-            <button className="mt-3 bg-blue-500 text-white py-2 px-4 rounded text-sm hover:bg-[#8F45FF] transition-colors">
-              Votar
-            </button>
+      <div className="flex flex-col items-center p-6">
+        {polls.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center mx-auto max-w-[1000px]">
+            {polls.map(option => (
+              <div key={option.id} className="p-5 border rounded-lg bg-white shadow-md w-full max-w-[350px]">
+                <h2 className="text-lg font-semibold">{option.title}</h2>
+                <p className="text-sm text-gray-600">{option.description}</p>
+                <button className="mt-3 bg-blue-500 text-white py-2 px-4 rounded text-sm hover:bg-[#8F45FF] transition-colors">
+                  Votar
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
+        ) : (
+          <div className="w-full flex justify-center">
+            <p className="text-center">Não há votações disponíveis no momento.</p>
+          </div>
+        )}
       </div>
     </div>
   );
