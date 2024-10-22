@@ -1,35 +1,10 @@
-'use client'
+
 import HomepageSearchInput from "@/components/inputs/HomepageSearchInput";
-import { connectToDB } from "@/lib/db";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 import { FaPoll, FaVoteYea, FaChartBar } from 'react-icons/fa';
 
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para controlar o login
-
-  useEffect(() => {
-    async function getData() {
-      const db = await connectToDB();
-
-      if (db) {
-        console.log('connected successfully');
-      }
-
-      // Aqui você deve verificar se o usuário está logado e atualizar o estado
-      // Por exemplo, você pode buscar o status de autenticação do seu contexto ou API
-      const loggedIn = // lógica para verificar se o usuário está logado
-      setIsLoggedIn(loggedIn);
-    }
-    getData();
-  }, []);
-
-  const handleCreateVote = () => {
-    if (isLoggedIn) {
-      window.location.href = '/votacoes/criar'; // Redireciona para a página de criação de votação
-    } else {
-      window.location.href = '/login'; // Redireciona para a página de login
-    }
-  };
+  
 
   return (
     <div className="flex flex-col w-[100%]">
@@ -62,12 +37,15 @@ export default function Home() {
 
       
       <div className="flex justify-center mt-8">
+        <Link href={'/votacoes/criar'}>
         <button 
-          onClick={handleCreateVote} 
+          
           className="bg-primary text-white py-3 px-6 rounded-lg text-lg hover:bg-primaryLight transition-colors"
         >
           Criar Votação
         </button>
+        </Link>
+        
       </div>
     </div>
   );
