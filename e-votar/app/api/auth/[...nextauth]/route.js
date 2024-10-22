@@ -1,5 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
+import bcrypt from 'bcrypt'
 import { connectToDB } from "@/lib/db";
 import { Users } from "@/models";
 
@@ -21,11 +22,14 @@ const handler = NextAuth({
           const user = await Users.findOne({ where: { email: credentials.email } });
 
           if (!user) {
-            throw new Error("No user found with the given email");
 
+            throw new Error("No user found with the given email");
           } else {
 
-            if (user.password === credentials.password) {
+            // Compare password
+            const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+
+            if (isPasswordValid) {
               delete user.password
               return {
                 id: user.id,

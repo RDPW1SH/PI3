@@ -2,11 +2,13 @@
 import { useRouter } from "next/navigation";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import React, { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const Criar = () => {
+
+  const {data: session} = useSession();
   const [title, setTitle] = useState("");
   const [options, setOptions] = useState([""]);
-  const router = useRouter();
 
   // Add a new option input field
   function handleNewBar() {
@@ -27,19 +29,19 @@ const Criar = () => {
   // Handle form submission
   async function handleNewPoll(e) {
     e.preventDefault();
-    
-    // Post data to the API route
+
     try {
+      const userId = session.user.id;
       const res = await fetch("/api/votacoes/criar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, options }),
+        body: JSON.stringify({ title, options, userId }),
       });
 
       if (res.ok) {
-        //router.push("/success"); 
+        console.log('POLL CREATED OHOHOHOHO')
       } else {
         console.error("Error creating poll");
       }
@@ -52,7 +54,7 @@ const Criar = () => {
     <div className="flex flex-col p-5 justify-center items-center">
         <h1 className="text-2xl font-semibold pb-5 text-secondary">Nova votação</h1>
       <div className="flex w-[400px] bg-gray-100 shadow-lg">
-        <form className="flex flex-col gap-5 p-4 w-full" onSubmit={handleNewPoll}>
+        <form className="flex flex-col gap-5 p-4 w-full" onSubmit={() => handleNewPoll()}>
           <input
             type="text"
             className="text-secondary border-primary font-semibold text-xl bg-transparent border-b-2  focus:outline-none"

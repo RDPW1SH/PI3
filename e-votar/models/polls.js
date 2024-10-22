@@ -8,10 +8,6 @@ const Polls = sequelize.define('Polls', {
         allowNull: false,
         unique: true,
     },
-    description: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-    },
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
