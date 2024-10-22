@@ -4,22 +4,16 @@ import sequelize from '@/lib/sequelize';
 
 const Users = sequelize.define('Users', {
     username: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(20),
         allowNull: false,
         unique: true,
-        validate: {
-            len: [4, 20],
-        },
     },
     password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(20),
         allowNull: false,
-        validate: {
-            len: [2, 20],
-        }
     },
     email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(80),
         allowNull: false,
         unique: true,
         validate: {
@@ -27,12 +21,9 @@ const Users = sequelize.define('Users', {
         },
     },
     slug: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(25),
         allowNull: false,
         unique: true,
-        validate: {
-            isLowercase: true,
-        }
     },
     isAdmin: {
         type: DataTypes.BOOLEAN,

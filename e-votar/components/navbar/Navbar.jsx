@@ -17,16 +17,16 @@ const Navbar = () => {
         </div>
         <div className="flex gap-5 items-center">
           <Link
-            href={"/"}
+            href={"/votacoes"}
             className="cursor-pointer transition ease-in delay-50 hover:-translate-y-1 hover:text-slate-300"
           >
             Votações
           </Link>
           {/* Display the user icon or login button only when session is ready */}
 
-          {status === "authenticated" ? (
+          {session ? (
             <FaUser className="text-xl cursor-pointer" />
-          ) : status === "unauthenticated" ? (
+          ) : !session  ? (
             <Link
               href={"/login"}
               className="cursor-pointer p-[6px] border-2 border-transparent bg-white text-black rounded-md 
