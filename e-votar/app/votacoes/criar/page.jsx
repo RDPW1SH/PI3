@@ -33,7 +33,7 @@ const Criar = () => {
     try {
       const userId = session.user.id;
       const res = await fetch("/api/votacoes/criar", {
-        method: "POST",
+        method: "POST", 
         headers: {
           "Content-Type": "application/json",
         },
