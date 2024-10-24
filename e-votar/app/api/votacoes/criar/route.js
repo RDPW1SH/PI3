@@ -12,6 +12,7 @@ export async function POST(req) {
         const user = Users.findByPk(userId)
 
         if (user) {
+
             // Create the poll
             const newPoll = await Polls.create({
                 title,
@@ -25,6 +26,7 @@ export async function POST(req) {
                     pollId: newPoll.id,  // Associate each option with the created poll
                 });
             });
+            
             await Promise.all(optionPromises); // Wait for all options to be created
 
             return NextResponse.json({ message: "Poll created successfully!" }, { status: 201 });
