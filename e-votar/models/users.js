@@ -3,6 +3,12 @@ import { DataTypes } from 'sequelize';
 import sequelize from '@/lib/sequelize';
 
 const Users = sequelize.define('Users', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+    },
     username: {
         type: DataTypes.STRING(20),
         allowNull: false,

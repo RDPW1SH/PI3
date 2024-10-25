@@ -9,7 +9,7 @@ export default function VotingPage() {
   useEffect(() => {
     async function handlePolls() {
       try {
-        const response = await fetch('/api/polls', {
+        const response = await fetch('/api/votacoes', {
           cache: 'no-cache'
         });
         const data = await response.json();

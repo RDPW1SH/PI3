@@ -7,16 +7,18 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Criar = () => {
+
   const { data: session } = useSession();
   const [title, setTitle] = useState("");
   const [options, setOptions] = useState([""]);
+  const router = useRouter();
 
-  // Add a new option input field
+  // Adicionar nova opção
   function handleNewBar() {
     setOptions([...options, ""]);
   }
 
-  // Handle option value change
+  // Gerir mudança de valor
   const handleOptionChange = (e, index) => {
     const newOptions = [...options];
     newOptions[index] = e.target.value;
@@ -27,12 +29,16 @@ const Criar = () => {
     const newOptions = options.filter((_, i) => i !== index);
     setOptions(newOptions);
   }
-  // Handle form submission
+
+  // Gerir nova votação
   async function handleNewPoll(e) {
     e.preventDefault();
 
     try {
       const userId = session.user.id;
+      console.log("titulo: ", title)
+      console.log("id: ", userId)
+      console.log("opçoes: ", options)
       const res = await fetch("/api/votacoes/criar", {
         method: "POST",
         headers: {
@@ -42,21 +48,34 @@ const Criar = () => {
       });
 
       if (res.ok) {
-        console.log("Your Pool was created");
-        toast.success("Your Pool was created");
 
-        /*toast.error('🦄 Wow so easy!', {
-position: "top-center",
-autoClose: 5000,
-hideProgressBar: false,
-closeOnClick: true,
-pauseOnHover: true,
-draggable: true,
-progress: undefined,
-theme: "light",
-});*/
+        toast.success("A votação foi criada com sucesso", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push('/votacoes');
+
       } else {
+
         console.error("Error creating poll");
+
+        toast.error("Ocorreu um erro, tente novamente", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+        });
+
       }
     } catch (error) {
       console.error("Failed to create poll:", error);
@@ -72,7 +91,7 @@ theme: "light",
       <div className="flex w-[400px] bg-gray-100 shadow-lg">
         <form
           className="flex flex-col gap-5 p-4 w-full"
-          onSubmit={() => handleNewPoll()}
+          onSubmit={handleNewPoll}
         >
           <input
             type="text"

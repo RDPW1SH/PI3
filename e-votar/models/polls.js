@@ -3,6 +3,12 @@ import { DataTypes } from 'sequelize';
 import sequelize from '@/lib/sequelize';
 
 const Polls = sequelize.define('Polls', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+    },
     title: {
         type: DataTypes.STRING(20),
         allowNull: false,
