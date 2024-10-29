@@ -4,6 +4,7 @@ import Votes from './votes';
 import PollOptions from './poll_options';
 
 // Associations
+
 Users.hasMany(Polls, { foreignKey: 'userId', as: 'polls' });
 Polls.belongsTo(Users, { foreignKey: 'userId', as: 'users' });
 

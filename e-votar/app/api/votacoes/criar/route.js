@@ -9,33 +9,33 @@ export async function POST(req) {
         const {title, options, userId} = req.body
         await connectToDB();
 
-        const user = Users.findByPk(userId)
+        const user = await Users.findOne({where: {id: userId}})
 
         if (user) {
 
-            // Create the poll
+            // Criar a votação
             const newPoll = await Polls.create({
                 title,
                 userId,
             });
 
-            // Create the poll options and associate them with the poll
+            // Criar as opções da votação e associalas a votação
             const optionPromises = options.map(optionTitle => {
                 return PollOptions.create({
                     optionTitle,
-                    pollId: newPoll.id,  // Associate each option with the created poll
+                    pollId: newPoll.id,  
                 });
             });
             
-            await Promise.all(optionPromises); // Wait for all options to be created
+            await Promise.all(optionPromises);
 
             return NextResponse.json({ message: "Poll created successfully!" }, { status: 201 });
         } else {
-            return NextResponse.json({ message: "User not found" }, { status: 404 });
+            return NextResponse.json({ message: "O utilizador não foi encontrado" }, { status: 404 });
         }
         
 
     } catch (error) {
-        return NextResponse.json({message: "Ocorreu um erro"}, {status: 500});
+        return NextResponse.json({message: error}, {status: 500});
     }
 }
