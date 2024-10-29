@@ -3,6 +3,7 @@ import HomepageSearchInput from "@/components/inputs/HomepageSearchInput";
 import { useEffect, useState } from "react";
 
 export default function VotingPage() {
+  
   const [loading, setLoading] = useState(false);
   const [polls, setPolls] = useState([]); // Inicializa com um array vazio
 
@@ -14,6 +15,7 @@ export default function VotingPage() {
         });
         const data = await response.json();
         setPolls(data); // Atualiza com os dados do servidor
+
       } catch (error) {
         console.error("Erro ao buscar os dados das votações:", error);
       }
