@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react"; // next-auth session
 import { ToastContainer, toast } from "react-toastify"; // react-toastify
 import "react-toastify/dist/ReactToastify.css"; // react-toastify css
 import DatePicker from "react-datepicker"; // react-datepicker
-import { pt } from "date-fns/locale/pt"; // datetype
+import { pt } from "date-fns/locale/pt"; // react-datepicker datetype
 import "react-datepicker/dist/react-datepicker.css"; // react-datepicker css
 
 const Criar = () => {
@@ -137,7 +137,7 @@ const Criar = () => {
               closeOnScroll={true}
               showTimeInput // Time input
               showIcon
-              icon={<FaCalendar className="text-white"/>} // Icon do calendario
+              icon={<FaCalendar className="text-white" />} // Icon do calendario
               dateFormat="Pp"
               locale={pt}
             />
