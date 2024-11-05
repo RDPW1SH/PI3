@@ -1,5 +1,5 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
 import { FaInstagram, FaTwitter } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaLinkedin } from "react-icons/fa";
@@ -16,17 +16,29 @@ const Footer = () => {
             </h4>
             <ul>
               <li className="mb-3">
-                <Link href={'/'} id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link
+                  href={"/"}
+                  id="footer-links-animation"
+                  className="text-white text-lg font-normal capitalize"
+                >
                   sobre nós
                 </Link>
               </li>
               <li className="mb-3">
-                <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link
+                  href="#"
+                  id="footer-links-animation"
+                  className="text-white text-lg font-normal capitalize"
+                >
                   serviços
                 </Link>
               </li>
               <li className="mb-3">
-                <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link
+                  href="#"
+                  id="footer-links-animation"
+                  className="text-white text-lg font-normal capitalize"
+                >
                   privacidade
                 </Link>
               </li>
@@ -40,12 +52,20 @@ const Footer = () => {
             </h4>
             <ul>
               <li className="mb-3">
-                <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link
+                  href="#"
+                  id="footer-links-animation"
+                  className="text-white text-lg font-normal capitalize"
+                >
                   perguntas frequentes
                 </Link>
               </li>
               <li className="mb-3">
-                <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link
+                  href="#"
+                  id="footer-links-animation"
+                  className="text-white text-lg font-normal capitalize"
+                >
                   contatos
                 </Link>
               </li>
@@ -59,17 +79,30 @@ const Footer = () => {
             </h4>
             <ul>
               <li className="mb-3">
-              <Link href={'/votacoes/criar'} id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link
+                  href={"/votacoes/criar"}
+                  id="footer-links-animation"
+                  className="text-white text-lg font-normal capitalize"
+                >
                   criar
                 </Link>
               </li>
               <li className="mb-3">
-                <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link
+                  href={"/votacoes"}
+                  id="footer-links-animation"
+                  className="text-white text-lg font-normal capitalize"
+                >
                   participar
                 </Link>
               </li>
+
               <li className="mb-3">
-                <Link href={'/login'} id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link
+                  href={"/login"}
+                  id="footer-links-animation"
+                  className="text-white text-lg font-normal capitalize"
+                >
                   login
                 </Link>
               </li>
@@ -82,21 +115,30 @@ const Footer = () => {
               follow us
             </h4>
             <div className="flex flex-wrap gap-4">
-              <Link href="#" className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary transition-all duration-500">
-                <FaTwitter className='text-2xl'/>
+              <Link
+                href="#"
+                className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary transition-all duration-500"
+              >
+                <FaTwitter className="text-2xl" />
               </Link>
-              <Link href="#" className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary transition-all duration-500">
-                <RiInstagramFill className='text-2xl'/>
+              <Link
+                href="#"
+                className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary transition-all duration-500"
+              >
+                <RiInstagramFill className="text-2xl" />
               </Link>
-              <Link href="#" className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary transition-all duration-500">
-                <FaLinkedin className='text-2xl'/>
+              <Link
+                href="#"
+                className="flex justify-center items-center h-10 w-10 bg-primary/[0.8] rounded-full text-center text-white hover:bg-primaryDark hover:text-secondary transition-all duration-500"
+              >
+                <FaLinkedin className="text-2xl" />
               </Link>
             </div>
           </div>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
