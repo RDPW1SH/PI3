@@ -30,7 +30,7 @@ export default function VotingPage() {
         <HomepageSearchInput />
       </div>
       <div className="flex flex-col items-center p-6">
-        {polls.length > 0 ? (
+        {polls ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center mx-auto max-w-[1000px]">
             {polls.map((poll) => (
               <div

@@ -1,8 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { signIn} from 'next-auth/react';
 
 const LoginPage = () => {
   
