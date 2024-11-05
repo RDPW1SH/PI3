@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   return (
     <>

@@ -1,26 +1,35 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import Link from 'next/link';
-import { signIn} from 'next-auth/react';
+import { signIn, useSession} from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
   
+  const {data: session} = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
 
+
+  if(session) {
+    router.push('/');
+  }
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
 
-    const login = await signIn('credentials', {
-      redirect: false,
+    const res = await signIn('credentials', {
       email,
       password,
     });
 
-    if (login.error) {
-      setErrorMessage(login.error);
+    if(res.ok) {
+      router.push('/');
+    } else {
+      setErrorMessage(res.error);
     }
   };
 
