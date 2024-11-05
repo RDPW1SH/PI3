@@ -4,9 +4,10 @@ import PollOptions from "@/models/poll_options";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
+
     try {
 
-        const {title, options, userId} = req.body
+        const {title, options, userId, startDate} = await req.json()
         await connectToDB();
 
         const user = await Users.findOne({where: {id: userId}})
@@ -17,6 +18,7 @@ export async function POST(req) {
             const newPoll = await Polls.create({
                 title,
                 userId,
+                end_date: startDate,
             });
 
             // Criar as opções da votação e associalas a votação
@@ -36,6 +38,6 @@ export async function POST(req) {
         
 
     } catch (error) {
-        return NextResponse.json({message: error}, {status: 500});
+        return NextResponse.json({message: error.message}, {status: 500});
     }
 }

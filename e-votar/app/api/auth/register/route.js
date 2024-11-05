@@ -13,7 +13,7 @@ export async function POST(req) {
         const body = await req.json(); 
         const { email, password, repeatPassword, username } = body;
         
-        // console.log(email, password, repeatPassword, username)
+        //console.log(email, password, repeatPassword, username)
 
         if(!email || !password || !repeatPassword || !username) {
             return NextResponse.json({message: "Make sure every value is not null"}, {status: 400})
@@ -25,8 +25,8 @@ export async function POST(req) {
         await connectToDB()
 
         const user = await Users.findOne({ where: { email: email } });
-        console.log(user);
-        if (user) {
+        // console.log("User:" + user);
+        if (user !== null) {
 
             return NextResponse.json({ message: "An account with the following email already exists" }, { status: 400 })
 

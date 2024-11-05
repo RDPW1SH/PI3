@@ -1,16 +1,19 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { FaPlus, FaMinus } from "react-icons/fa";
 import React, { useState } from "react";
-import { useSession } from "next-auth/react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+import { FaPlus, FaMinus, FaCalendar } from "react-icons/fa"; // react icons - icons
+import { useSession } from "next-auth/react"; // next-auth session
+import { ToastContainer, toast } from "react-toastify"; // react-toastify
+import "react-toastify/dist/ReactToastify.css"; // react-toastify css
+import DatePicker from "react-datepicker"; // react-datepicker
+import { pt } from "date-fns/locale/pt"; // react-datepicker datetype
+import "react-datepicker/dist/react-datepicker.css"; // react-datepicker css
 
 const Criar = () => {
-
   const { data: session } = useSession();
   const [title, setTitle] = useState("");
   const [options, setOptions] = useState([""]);
+  const [startDate, setStartDate] = useState(new Date());
   const router = useRouter();
 
   // Adicionar nova opção
@@ -36,19 +39,18 @@ const Criar = () => {
 
     try {
       const userId = session.user.id;
-      console.log("titulo: ", title)
-      console.log("id: ", userId)
-      console.log("opçoes: ", options)
+      console.log("titulo: ", title);
+      console.log("id: ", userId);
+      console.log("opçoes: ", options);
       const res = await fetch("/api/votacoes/criar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, options, userId }),
+        body: JSON.stringify({ title, options, userId, startDate }),
       });
 
       if (res.ok) {
-
         toast.success("A votação foi criada com sucesso", {
           position: "top-right",
           autoClose: 3000,
@@ -59,10 +61,8 @@ const Criar = () => {
           progress: undefined,
           theme: "light",
         });
-        router.push('/votacoes');
-
+        router.push("/votacoes");
       } else {
-
         console.error("Error creating poll");
 
         toast.error("Ocorreu um erro, tente novamente", {
@@ -75,7 +75,6 @@ const Criar = () => {
           progress: undefined,
           theme: "light",
         });
-
       }
     } catch (error) {
       console.error("Failed to create poll:", error);
@@ -125,10 +124,25 @@ const Criar = () => {
             </div>
           </div>
 
-          <FaPlus
-            className="rounded-full bg-primary text-white hover:bg-primaryDark w-10 h-10 p-2 cursor-pointer"
-            onClick={handleNewBar}
-          />
+          {/* Adicionar opções e definir data*/}
+          <div className="flex justify-between items-center">
+            <FaPlus
+              className="rounded-full bg-primary text-white hover:bg-primaryDark w-10 h-10 p-2 cursor-pointer"
+              onClick={handleNewBar}
+            />
+            <DatePicker
+              className="bg-primary text-white p-1 hover:bg-primaryLight rounded-md cursor-pointer focus:outline-none"
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              closeOnScroll={true}
+              showTimeInput // Time input
+              showIcon
+              icon={<FaCalendar className="text-white" />} // Icon do calendario
+              dateFormat="Pp"
+              locale={pt}
+            />
+          </div>
+
           <button
             type="submit"
             className="p-2 bg-primaryLight hover:bg-primary text-white text-xl rounded-md"
