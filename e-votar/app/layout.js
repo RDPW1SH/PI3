@@ -1,8 +1,8 @@
 
 import Navbar from "@/components/navbar/Navbar";
-import "./globals.css";
 import Footer from "@/components/footer/Footer";
 import { AuthProvider } from "@/components/session-provider/SessionProvider";
+import "./globals.css";
 
 export const metadata = {
   title: "E-votar",

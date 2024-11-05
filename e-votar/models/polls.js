@@ -10,7 +10,7 @@ const Polls = sequelize.define('Polls', {
         allowNull: false
     },
     title: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(255),
         allowNull: false,
         unique: true,
     },

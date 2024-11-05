@@ -16,7 +16,7 @@ const Footer = () => {
             </h4>
             <ul>
               <li className="mb-3">
-                <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link href={'/'} id="footer-links-animation" className="text-white text-lg font-normal capitalize">
                   sobre nós
                 </Link>
               </li>
@@ -59,7 +59,7 @@ const Footer = () => {
             </h4>
             <ul>
               <li className="mb-3">
-              <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+              <Link href={'/votacoes/criar'} id="footer-links-animation" className="text-white text-lg font-normal capitalize">
                   criar
                 </Link>
               </li>
@@ -69,7 +69,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li className="mb-3">
-                <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link href={'/login'} id="footer-links-animation" className="text-white text-lg font-normal capitalize">
                   login
                 </Link>
               </li>

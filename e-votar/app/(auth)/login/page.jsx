@@ -6,16 +6,9 @@ import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
   
-  const { data: session } = useSession({});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('');
-  const router = useRouter();
-
-  if (session) {
-    router.push('/');
-    return null;
-  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
