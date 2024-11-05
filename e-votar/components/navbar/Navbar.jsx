@@ -25,7 +25,8 @@ const Navbar = () => {
           {/* Display the user icon or login button only when session is ready */}
 
           {session ? (
-            <FaUser className="text-xl cursor-pointer" />
+             <Link href={"/conta"}>
+            <FaUser className="text-xl cursor-pointer" /></Link>
           ) : !session  ? (
             <Link
               href={"/login"}

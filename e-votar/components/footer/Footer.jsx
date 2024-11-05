@@ -59,20 +59,16 @@ const Footer = () => {
             </h4>
             <ul>
               <li className="mb-3">
-              <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+              <Link href={"/votacoes/criar"} id="footer-links-animation" className="text-white text-lg font-normal capitalize">
                   criar
                 </Link>
               </li>
               <li className="mb-3">
-                <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
+                <Link href={"/votacoes"} id="footer-links-animation" className="text-white text-lg font-normal capitalize">
                   participar
                 </Link>
               </li>
-              <li className="mb-3">
-                <Link href="#" id="footer-links-animation" className="text-white text-lg font-normal capitalize">
-                  login
-                </Link>
-              </li>
+              
             </ul>
           </div>
 

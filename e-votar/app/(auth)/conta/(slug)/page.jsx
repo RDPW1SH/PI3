@@ -4,9 +4,9 @@ import { FaCamera } from 'react-icons/fa';
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({
-    fullName: 'Jamed Allan',
-    username: 'james',
-    email: 'demonmail@mail.com',
+    fullName: 'Teste Teste',
+    username: 'Teste',
+    email: 'teste@mail.com',
   });
   const [newPhoto, setNewPhoto] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -38,7 +38,7 @@ const UserProfile = () => {
             >
             <img
                 src={newPhoto ? URL.createObjectURL(newPhoto) : "https://via.placeholder.com/100"}
-                alt="Avatar do usuário"
+                alt="Foto de perfil"
                 className="rounded-full w-full h-full object-cover"
             />
             <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-50 hover:bg-opacity-50 z-10">
