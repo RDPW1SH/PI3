@@ -1,0 +1,18 @@
+// /prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"  // ou "mysql" se você estiver usando MySQL
+  url      = env("DATABASE_URL")  // Aqui você configura sua URL do banco de dados no arquivo .env
+}
+
+model Poll {
+  id          Int      @id @default(autoincrement())  // Campo id com auto incremento
+  title       String
+  description String?  // Descrição opcional
+  options     String[]  // Opções como um array de strings
+  userId      Int      // ID do usuário que criou a votação
+  createdAt   DateTime @default(now())  // Data de criação
+}
