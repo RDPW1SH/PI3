@@ -1,10 +1,14 @@
 "use client";
 import HomepageSearchInput from "@/components/inputs/HomepageSearchInput";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { FaVoteYea } from "react-icons/fa";
 
 export default function VotingPage() {
-  const [loading, setLoading] = useState(false);
-  const [polls, setPolls] = useState([]); // Inicializa com um array vazio
+
+  const {data: session} = useSession()
+  const [loading, setLoading] = useState(true);
+  const [polls, setPolls] = useState([]); 
 
   useEffect(() => {
     async function handlePolls() {
@@ -14,12 +18,29 @@ export default function VotingPage() {
         });
         const data = await response.json();
         setPolls(data.polls);
+        console.log(polls);
       } catch (error) {
         console.error("Erro ao buscar os dados das votações:", error);
       }
+      setLoading(false);
     }
     handlePolls();
   }, []);
+
+  async function handleVote(pollId, optionId) {
+
+    const res = await fetch('api/votos', {
+      method: 'POST',
+      headers: {
+
+      },
+      body: {pollId, optionId}
+    })
+  }
+
+  if(loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="flex flex-col w-[100%]">
@@ -31,52 +52,42 @@ export default function VotingPage() {
       </div>
       <div className="flex flex-col items-center p-6">
         {polls ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center mx-auto max-w-[1000px]">
-          {polls.map((poll) => (
-            <div key={poll.id} className="flex flex-col bg-white shadow-lg rounded-lg p-6 w-full max-w-[400px]">
-              {/* Título da votação */}
-              <h2 className="text-xl font-semibold mb-4">{poll.title}</h2>
+          <div className="flex flex-row gap-4">
+            {polls.map((poll) => (
+              <div
+                key={poll.id}
+                className="flex flex-col bg-white shadow-lg rounded-lg p-5 w-auto min-w-[400px] max-w-[600px]"
+              >
+                {/* Título da votação */}
+                <h2 className="text-xl font-semibold mb-4">{poll.title}</h2>
 
-              {/* Opções de votação */}
-              <div className="flex flex-col gap-3">
-                {poll.options.map((option, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <span className="text-lg">{option.optionTitle}</span>
-                    {!poll.voted ? (
-                      <button
-                        className="bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600"
-                        onClick={() => handleVote(option.optionTitle, poll.id)}
-                      >
-                        Votar
-                      </button>
-                    ) : (
-                      <div className="w-full ml-4 relative bg-gray-200 rounded-full h-6">
+                {/* Opções de votação */}
+                <div className="flex flex-col gap-3">
+                  {poll.options.map((option, index) => (
+
+                      <div className="flex flex-row">
                         <div
-                          className="absolute top-0 left-0 h-full bg-green-500 rounded-full transition-all duration-500"
-                          style={{ width: `${option.percentage}%` }}
-                        />
-                        <span className="absolute left-1/2 transform -translate-x-1/2 text-sm text-gray-700">
-                          {option.percentage}%
-                        </span>
+                          key={index}
+                          className="flex flex-col w-[90%] gap-1"
+                        >
+                          <span className="text-lg">{option.optionTitle} -</span>
+                          <div className="bg-primary rounded-lg h-2"></div>
+                        </div>
+                        <div className="flex justify-center items-center w-[10%]">
+                          <FaVoteYea onClick={() => handleVote(poll.id, option.id)} className="text-black w-full hover:cursor-pointer" />
+                        </div>
                       </div>
-                    )}
+
+                  ))}
+                  <div className="flex flex-row justify-between mt-4">
+                      <p>Total Votes: {poll.votes.length}</p>
+                      <p>Time left: {poll.end_date}</p>
+                      
                   </div>
-                ))}
-              </div>
-
-              {/* Detalhes finais, como total de votos e tempo restante */}
-              {poll.voted && (
-                <div className="mt-4 text-sm text-gray-500">
-                  <p>Total de votos: {poll.totalVotes}</p>
-                  <p>{poll.timeLeft} restantes</p>
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-
-
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="w-full flex justify-center">
             <p className="text-center">

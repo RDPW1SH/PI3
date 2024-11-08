@@ -13,7 +13,7 @@ const Criar = () => {
   const { data: session } = useSession();
   const [title, setTitle] = useState("");
   const [options, setOptions] = useState([""]);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(() => new Date(Date.now() + 15 * 60 * 1000));
   const router = useRouter();
 
   // Adicionar nova opção
@@ -51,7 +51,7 @@ const Criar = () => {
       });
 
       if (res.ok) {
-        toast.success("A votação foi criada com sucesso", {
+        toast.success(res.message, {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -63,9 +63,8 @@ const Criar = () => {
         });
         router.push("/votacoes");
       } else {
-        console.error("Error creating poll");
 
-        toast.error("Ocorreu um erro, tente novamente", {
+        toast.error(res.message, {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
