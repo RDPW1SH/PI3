@@ -5,10 +5,9 @@ import { useEffect, useState } from "react";
 import { FaVoteYea } from "react-icons/fa";
 
 export default function VotingPage() {
-
-  const {data: session} = useSession()
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
-  const [polls, setPolls] = useState([]); 
+  const [polls, setPolls] = useState([]);
 
   useEffect(() => {
     async function handlePolls() {
@@ -28,18 +27,15 @@ export default function VotingPage() {
   }, []);
 
   async function handleVote(pollId, optionId) {
-
-    const res = await fetch('api/votos', {
-      method: 'POST',
-      headers: {
-
-      },
-      body: {pollId, optionId}
-    })
+    const res = await fetch("api/votos", {
+      method: "POST",
+      headers: {},
+      body: { pollId, optionId },
+    });
   }
 
-  if(loading) {
-    return <div>Loading...</div>
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -63,26 +59,62 @@ export default function VotingPage() {
 
                 {/* Opções de votação */}
                 <div className="flex flex-col gap-3">
-                  {poll.options.map((option, index) => (
+                  {poll.options.map((option, index) => {
+                    const totalVotes = poll.votes.length;
 
-                      <div className="flex flex-row">
-                        <div
-                          key={index}
-                          className="flex flex-col w-[90%] gap-1"
-                        >
-                          <span className="text-lg">{option.optionTitle} -</span>
-                          <div className="bg-primary rounded-lg h-2"></div>
+                    // Calculate the number of votes for this option
+                    const optionVotes = poll.votes.filter(
+                      (vote) => vote.optionId === option.id
+                    ).length;
+
+                    // Calculate the percentage
+                    const votePercentage =
+                      totalVotes > 0
+                        ? optionVotes > 0
+                          ? ((optionVotes / totalVotes) * 100).toFixed(1)
+                          : 0
+                        : 0;
+
+                    return (
+                      <div className="flex flex-row" key={index}>
+                        <div className="flex flex-col w-[90%] gap-1">
+                          {/* Display option title with the calculated percentage */}
+                          <span className="text-lg">
+                            {option.optionTitle} - {votePercentage}%
+                          </span>
+                          <div
+                            className="bg-primary rounded-lg h-2"
+                            style={{ width: `${votePercentage}%` }}
+                          ></div>
                         </div>
                         <div className="flex justify-center items-center w-[10%]">
-                          <FaVoteYea onClick={() => handleVote(poll.id, option.id)} className="text-black w-full hover:cursor-pointer" />
+                          {poll.votes.some(vote => vote.userId == session.user.id && vote.optionId === option.id) ? (
+                            <h1>Votaste neste </h1>
+                          ) :
+                          <FaVoteYea
+                            onClick={() => handleVote(poll.id, option.id)}
+                            className="text-black w-full hover:cursor-pointer"
+                          />
+                          }
+                          
                         </div>
                       </div>
-
-                  ))}
+                    );
+                  })}
                   <div className="flex flex-row justify-between mt-4">
-                      <p>Total Votes: {poll.votes.length}</p>
-                      <p>Time left: {poll.end_date}</p>
-                      
+                    <p>Total Votes: {poll.votes.length}</p>
+                    <p>
+                      Acaba no dia:{" "}
+                      {new Date(poll.end_date).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}{" "}
+                      {new Date(poll.end_date).toLocaleTimeString("en-GB", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
                   </div>
                 </div>
               </div>

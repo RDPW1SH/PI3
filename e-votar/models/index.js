@@ -17,4 +17,6 @@ Votes.belongsTo(Polls, { foreignKey: 'pollId', as: 'poll' });
 PollOptions.belongsTo(Polls, { foreignKey: 'pollId', as: 'poll_options' });
 Polls.hasMany(PollOptions, {foreignKey: 'pollId', as: 'options'})
 
+Votes.belongsTo(PollOptions, {foreignKey: 'optionId', as: 'option'})
+
 export { Users, Polls, Votes, PollOptions };
