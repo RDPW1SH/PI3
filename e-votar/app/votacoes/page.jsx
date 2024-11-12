@@ -1,25 +1,49 @@
-"use client";
+'use client';
 import HomepageSearchInput from "@/components/inputs/HomepageSearchInput";
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 
 export default function VotingPage() {
   const [loading, setLoading] = useState(false);
-  const [polls, setPolls] = useState([]); // Inicializa com um array vazio
+  const [polls, setPolls] = useState([]);
+  const [filteredPolls, setFilteredPolls] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
 
+  // useEffect para capturar o termo de pesquisa da URL
+  useEffect(() => {
+    const querySearchTerm = new URLSearchParams(window.location.search).get('searchTerm');
+    if (querySearchTerm) {
+      setSearchTerm(querySearchTerm);
+    }
+  }, []);
+
+  // useEffect para buscar as votações e filtrar com base no searchTerm
   useEffect(() => {
     async function handlePolls() {
       try {
-        const response = await fetch("/api/votacoes", {
-          cache: "no-cache",
-        });
+        const response = await fetch("/api/votacoes", { cache: "no-cache" });
         const data = await response.json();
         setPolls(data.polls);
       } catch (error) {
         console.error("Erro ao buscar os dados das votações:", error);
       }
     }
+
     handlePolls();
   }, []);
+
+  // useEffect para filtrar as votações com base no searchTerm
+  useEffect(() => {
+    if (searchTerm) {
+      const filtered = polls.filter(poll => 
+        poll.title.toLowerCase().includes(searchTerm.toLowerCase()) // Filtra pelas votações
+      );
+      setFilteredPolls(filtered);
+    } else {
+      setFilteredPolls(polls); // Se não houver termo de pesquisa, mostra todas as votações
+    }
+  }, [polls, searchTerm]);
 
   return (
     <div className="flex flex-col w-[100%]">
@@ -30,58 +54,48 @@ export default function VotingPage() {
         <HomepageSearchInput />
       </div>
       <div className="flex flex-col items-center p-6">
-        {polls ? (
+        {filteredPolls.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center mx-auto max-w-[1000px]">
-          {polls.map((poll) => (
-            <div key={poll.id} className="flex flex-col bg-white shadow-lg rounded-lg p-6 w-full max-w-[400px]">
-              {/* Título da votação */}
-              <h2 className="text-xl font-semibold mb-4">{poll.title}</h2>
-
-              {/* Opções de votação */}
-              <div className="flex flex-col gap-3">
-                {poll.options.map((option, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <span className="text-lg">{option.optionTitle}</span>
-                    {!poll.voted ? (
-                      <button
-                        className="bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600"
-                        onClick={() => handleVote(option.optionTitle, poll.id)}
-                      >
-                        Votar
-                      </button>
-                    ) : (
-                      <div className="w-full ml-4 relative bg-gray-200 rounded-full h-6">
-                        <div
-                          className="absolute top-0 left-0 h-full bg-green-500 rounded-full transition-all duration-500"
-                          style={{ width: `${option.percentage}%` }}
-                        />
-                        <span className="absolute left-1/2 transform -translate-x-1/2 text-sm text-gray-700">
-                          {option.percentage}%
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Detalhes finais, como total de votos e tempo restante */}
-              {poll.voted && (
-                <div className="mt-4 text-sm text-gray-500">
-                  <p>Total de votos: {poll.totalVotes}</p>
-                  <p>{poll.timeLeft} restantes</p>
+            {filteredPolls.map((poll) => (
+              <div key={poll.id} className="flex flex-col bg-white shadow-lg rounded-lg p-6 w-full max-w-[400px]">
+                <h2 className="text-xl font-semibold mb-4">{poll.title}</h2>
+                <div className="flex flex-col gap-3">
+                  {poll.options.map((option, index) => (
+                    <div key={index} className="flex items-center justify-between">
+                      <span className="text-lg">{option.optionTitle}</span>
+                      {!poll.voted ? (
+                        <button
+                          className="bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600"
+                          onClick={() => handleVote(option.optionTitle, poll.id)}
+                        >
+                          Votar
+                        </button>
+                      ) : (
+                        <div className="w-full ml-4 relative bg-gray-200 rounded-full h-6">
+                          <div
+                            className="absolute top-0 left-0 h-full bg-green-500 rounded-full transition-all duration-500"
+                            style={{ width: `${option.percentage}%` }}
+                          />
+                          <span className="absolute left-1/2 transform -translate-x-1/2 text-sm text-gray-700">
+                            {option.percentage}%
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-
-
+                {poll.voted && (
+                  <div className="mt-4 text-sm text-gray-500">
+                    <p>Total de votos: {poll.totalVotes}</p>
+                    <p>{poll.timeLeft} restantes</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="w-full flex justify-center">
-            <p className="text-center">
-              Não há votações disponíveis no momento.
-            </p>
+            <p className="text-center">Não há votações disponíveis no momento.</p>
           </div>
         )}
       </div>
