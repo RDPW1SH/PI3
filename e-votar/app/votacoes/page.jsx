@@ -27,12 +27,33 @@ export default function VotingPage() {
   }, []);
 
   async function handleVote(pollId, optionId) {
-    const res = await fetch("api/votos", {
-      method: "POST",
-      headers: {},
-      body: { pollId, optionId },
-    });
-  }
+    try {
+        const res = await fetch("/api/votos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                pollId,
+                optionId,
+                userId: session.user.id, 
+            }),
+        });
+
+        if (!res.ok) {
+            const data = await res.json();
+            
+        } else {
+            alert("Voto registrado com sucesso");
+            // Opcional: Atualizar a lista de votações após o voto
+            const updatedPolls = await handlePolls();
+            setPolls(updatedPolls);
+        }
+    } catch (error) {
+        console.error("Erro ao registrar voto:", error);
+        alert("Erro ao registrar voto");
+    }
+}
 
   if (loading) {
     return <div>Loading...</div>;
