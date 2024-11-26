@@ -9,9 +9,13 @@ const Votes = sequelize.define('Votes', {
         primaryKey: true,
         allowNull: false
     },
+    optionId: {
+       type: DataTypes.INTEGER,
+        allowNull: false, 
+    },
     userId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: false, 
     },
     pollId: {
         type: DataTypes.INTEGER,

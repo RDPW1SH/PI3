@@ -31,7 +31,7 @@ export async function POST(req) {
             
             await Promise.all(optionPromises);
 
-            return NextResponse.json({ message: "Poll created successfully!" }, { status: 201 });
+            return NextResponse.json({ message: "Votação criada com sucesso" }, { status: 201 });
         } else {
             return NextResponse.json({ message: "O utilizador não foi encontrado" }, { status: 404 });
         }
