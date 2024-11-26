@@ -1,23 +1,27 @@
 "use client";
 import HomepageSearchInput from "@/components/inputs/HomepageSearchInput";
 import { useSession } from "next-auth/react";
+import { ToastContainer, toast } from "react-toastify"; // react-toastify
+import "react-toastify/dist/ReactToastify.css"; // react-toastify css
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaVoteYea } from "react-icons/fa";
 
 export default function VotingPage() {
+
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [polls, setPolls] = useState([]);
+  const router = useRouter()
 
   useEffect(() => {
     async function handlePolls() {
       try {
-        const response = await fetch("/api/votacoes", {
-          cache: "no-cache",
-        });
+
+        const response = await fetch("/api/votacoes");
         const data = await response.json();
         setPolls(data.polls);
-        console.log(polls);
+        
       } catch (error) {
         console.error("Erro ao buscar os dados das votações:", error);
       }
@@ -27,33 +31,41 @@ export default function VotingPage() {
   }, []);
 
   async function handleVote(pollId, optionId) {
-    try {
-        const res = await fetch("/api/votos", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                pollId,
-                optionId,
-                userId: session.user.id, 
-            }),
+    if (!session) {
+      router.push('/login');
+    } else {
+      try {
+        const res = await fetch("/api/votacoes/votos", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            pollId,
+            optionId,
+            userId: session?.user?.id,
+          }),
         });
 
-        if (!res.ok) {
-            const data = await res.json();
-            
-        } else {
-            alert("Voto registrado com sucesso");
-            // Opcional: Atualizar a lista de votações após o voto
-            const updatedPolls = await handlePolls();
-            setPolls(updatedPolls);
-        }
-    } catch (error) {
+        if (res.ok) {
+          toast.success(res.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "light",
+          });
+          
+        } 
+
+      } catch (error) {
         console.error("Erro ao registrar voto:", error);
-        alert("Erro ao registrar voto");
+      }
     }
-}
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -61,15 +73,16 @@ export default function VotingPage() {
 
   return (
     <div className="flex flex-col w-[100%]">
+      <ToastContainer />
       <div className="flex flex-col justify-center items-center gap-3 p-4 bg-secondary w-full">
         <h1 className="text-3xl font-semibold text-white">
           Participe das Votações
         </h1>
         <HomepageSearchInput />
       </div>
-      <div className="flex flex-col items-center p-6">
+      <div className="flex flex-row p-6 ">
         {polls ? (
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row gap-4 flex-wrap justify-center">
             {polls.map((poll) => (
               <div
                 key={poll.id}
@@ -109,15 +122,18 @@ export default function VotingPage() {
                           ></div>
                         </div>
                         <div className="flex justify-center items-center w-[10%]">
-                          {poll.votes.some(vote => vote.userId == session.user.id && vote.optionId === option.id) ? (
-                            <h1>Votaste neste </h1>
-                          ) :
-                          <FaVoteYea
-                            onClick={() => handleVote(poll.id, option.id)}
-                            className="text-black w-full hover:cursor-pointer"
-                          />
-                          }
-                          
+                          {poll.votes.some(
+                            (vote) =>
+                              vote.userId == session?.user?.id &&
+                              vote.optionId === option.id
+                          ) ? (
+                            <p>✨</p>
+                          ) : (
+                            <FaVoteYea
+                              onClick={() => handleVote(poll.id, option.id)}
+                              className="text-black w-full hover:cursor-pointer"
+                            />
+                          )}
                         </div>
                       </div>
                     );
