@@ -54,7 +54,7 @@ const Navbar = () => {
           {/* Display the user icon or login button only when session is ready */}
 
           {session ? (
-            <Link href={"/conta"}>
+            <Link href={"/conta/settings"}>
               <FaUser className="text-xl cursor-pointer" />
             </Link>
           ) : !session ? (
