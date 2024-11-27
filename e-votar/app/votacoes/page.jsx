@@ -21,7 +21,6 @@ export default function VotingPage() {
         const response = await fetch("/api/votacoes");
         const data = await response.json();
         setPolls(data.polls);
-        
       } catch (error) {
         console.error("Erro ao buscar os dados das votações:", error);
       }
