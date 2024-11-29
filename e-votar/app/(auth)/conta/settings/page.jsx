@@ -1,14 +1,15 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import { FaCamera } from 'react-icons/fa';
+"use client";
+import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { FaCamera } from "react-icons/fa";
 
 const UserProfile = () => {
   const { data: session } = useSession();
   const [userData, setUserData] = useState({
-    fullName: '',
-    username: '',
-    email: '',
+    fullName: "",
+    username: "",
+    createdAt: "",
+    email: "",
   });
   const [newPhoto, setNewPhoto] = useState(null);
 
@@ -17,9 +18,9 @@ const UserProfile = () => {
     if (session) {
       // Fetch user data from the API using the session's user ID
       fetch(`/api/user/profile`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ id: session.user.id }), // Fetch based on session user ID
       })
@@ -29,9 +30,13 @@ const UserProfile = () => {
             fullName: data.fullName,
             username: data.username,
             email: data.email,
+            createdAt: data.createdAt,
           });
+          console.log(data);
         })
-        .catch((error) => console.error('Erro ao buscar dados do utilizador:', error));
+        .catch((error) =>
+          console.error("Erro ao buscar dados do utilizador:", error)
+        );
     }
   }, [session]);
 
@@ -42,21 +47,21 @@ const UserProfile = () => {
   const handleUpdate = () => {
     // Send the updated data to the API
     fetch(`/api/user/updateProfile`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ id: session.user.id, userData, newPhoto }), // Envia os novos dados
     })
       .then((res) => res.json())
       .then((data) => {
-        alert('Perfil atualizado com sucesso!');
+        alert("Perfil atualizado com sucesso!");
       })
-      .catch((error) => console.error('Erro ao atualizar o perfil:', error));
+      .catch((error) => console.error("Erro ao atualizar o perfil:", error));
   };
 
   const triggerFileInput = () => {
-    document.getElementById('fileInput').click();
+    document.getElementById("fileInput").click();
   };
 
   if (!session) return <div>Carregando...</div>;
@@ -66,9 +71,16 @@ const UserProfile = () => {
       {/* Coluna Esquerda: Informações e Foto do Utilizador */}
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-xs">
         <div className="flex flex-col items-center">
-          <div className="relative cursor-pointer w-28 h-28" onClick={triggerFileInput}>
+          <div
+            className="relative cursor-pointer w-28 h-28"
+            onClick={triggerFileInput}
+          >
             <img
-              src={newPhoto ? URL.createObjectURL(newPhoto) : 'https://via.placeholder.com/100'}
+              src={
+                newPhoto
+                  ? URL.createObjectURL(newPhoto)
+                  : "https://via.placeholder.com/100"
+              }
               alt="Foto de perfil"
               className="rounded-full w-full h-full object-cover"
             />
@@ -85,7 +97,14 @@ const UserProfile = () => {
           />
           <h2 className="text-xl font-semibold">{userData.fullName}</h2>
           <p className="text-gray-500">@{userData.username}</p>
-          <p className="text-gray-400 text-sm">Membro desde: 29 de setembro de 2019</p>
+          <p className="text-gray-400 text-sm">
+            Membro desde:{" "}
+            {new Date(userData.createdAt).toLocaleDateString("pt-PT", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}{" "}
+          </p>
         </div>
       </div>
 
@@ -99,7 +118,9 @@ const UserProfile = () => {
               <input
                 type="text"
                 value={userData.fullName}
-                onChange={(e) => setUserData({ ...userData, fullName: e.target.value })}
+                onChange={(e) =>
+                  setUserData({ ...userData, fullName: e.target.value })
+                }
                 className="border border-gray-300 p-2 rounded-md w-full"
               />
             </div>
@@ -108,7 +129,9 @@ const UserProfile = () => {
               <input
                 type="text"
                 value={userData.username}
-                onChange={(e) => setUserData({ ...userData, username: e.target.value })}
+                onChange={(e) =>
+                  setUserData({ ...userData, username: e.target.value })
+                }
                 className="border border-gray-300 p-2 rounded-md w-full"
               />
             </div>
@@ -118,11 +141,17 @@ const UserProfile = () => {
           <div className="flex gap-4">
             <div className="w-full">
               <label className="block text-gray-700">Senha</label>
-              <input type="password" className="border border-gray-300 p-2 rounded-md w-full" />
+              <input
+                type="password"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              />
             </div>
             <div className="w-full">
               <label className="block text-gray-700">Confirmar Senha</label>
-              <input type="password" className="border border-gray-300 p-2 rounded-md w-full" />
+              <input
+                type="password"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              />
             </div>
           </div>
 
@@ -132,7 +161,9 @@ const UserProfile = () => {
             <input
               type="email"
               value={userData.email}
-              onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, email: e.target.value })
+              }
               className="border border-gray-300 p-2 rounded-md w-full"
             />
           </div>

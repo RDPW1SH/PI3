@@ -3,14 +3,17 @@ import { Users } from '@/models';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
+
   const { id } = await req.json();
   
   if (!id) return NextResponse.json({ error: 'ID não fornecido' }, { status: 400 });
 
   try {
+
     await connectToDB();
     
-    const user = await Users.findOne({ where: { id } });
+    const user = await Users.findOne({ where: { id }, attributes: {exclude: ['password']}});
+    
     if (!user) return NextResponse.json({ error: 'Utilizador não encontrado' }, { status: 404 });
 
     return NextResponse.json(user, { status: 200 });

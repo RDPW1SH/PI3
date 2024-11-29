@@ -36,10 +36,9 @@ export default function Home() {
       </div>
 
       
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center my-8">
         <Link href={'/votacoes/criar'}>
         <button 
-          
           className="bg-primary text-white py-3 px-6 rounded-lg text-lg hover:bg-primaryLight transition-colors"
         >
           Criar Votação

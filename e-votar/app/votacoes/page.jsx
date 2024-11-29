@@ -7,31 +7,42 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaVoteYea } from "react-icons/fa";
 
-export default function VotingPage() {
-
+export default function VotingPage({ searchParams }) {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [polls, setPolls] = useState([]);
-  const router = useRouter()
+  const router = useRouter();
+
+  // get searchTerm
+  const searchTerm = searchParams?.searchTerm || null;
 
   useEffect(() => {
     async function handlePolls() {
       try {
-
-        const response = await fetch("/api/votacoes");
+        const url = searchTerm
+          ? `/api/votacoes?searchTerm=${encodeURIComponent(searchTerm)}`
+          : `/api/votacoes`;
+  
+        const response = await fetch(url, { cache: "no-store" });
         const data = await response.json();
-        setPolls(data.polls);
+  
+        if (response.ok) {
+          setPolls(data.polls);
+        } else {
+          console.error(data.message);
+        }
       } catch (error) {
         console.error("Erro ao buscar os dados das votações:", error);
       }
       setLoading(false);
     }
+  
     handlePolls();
-  }, []);
+  }, [searchTerm]);
 
   async function handleVote(pollId, optionId) {
     if (!session) {
-      router.push('/login');
+      router.push("/login");
     } else {
       try {
         const res = await fetch("/api/votacoes/votos", {
@@ -47,7 +58,8 @@ export default function VotingPage() {
         });
 
         if (res.ok) {
-          toast.success(res.message, {
+          router.refresh();
+          toast.success("O seu voto foi registado com sucesso", {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -57,9 +69,7 @@ export default function VotingPage() {
             progress: undefined,
             theme: "light",
           });
-          
-        } 
-
+        }
       } catch (error) {
         console.error("Erro ao registrar voto:", error);
       }
@@ -79,7 +89,7 @@ export default function VotingPage() {
         </h1>
         <HomepageSearchInput />
       </div>
-      <div className="flex flex-row p-6 ">
+      <div className="flex flex-row p-6 justify-center">
         {polls ? (
           <div className="flex flex-row gap-4 flex-wrap justify-center">
             {polls.map((poll) => (
