@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify"; // react-toastify
 import "react-toastify/dist/ReactToastify.css"; // react-toastify css
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { FaVoteYea } from "react-icons/fa";
 
 export default function VotingPage({ searchParams }) {
@@ -22,21 +23,19 @@ export default function VotingPage({ searchParams }) {
         const url = searchTerm
           ? `/api/votacoes?searchTerm=${encodeURIComponent(searchTerm)}`
           : `/api/votacoes`;
-  
+
         const response = await fetch(url, { cache: "no-store" });
         const data = await response.json();
-  
+
         if (response.ok) {
           setPolls(data.polls);
-        } else {
-          console.error(data.message);
         }
       } catch (error) {
         console.error("Erro ao buscar os dados das votações:", error);
       }
       setLoading(false);
     }
-  
+
     handlePolls();
   }, [searchTerm]);
 
@@ -77,7 +76,46 @@ export default function VotingPage({ searchParams }) {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center gap-4 pt-10">
+        <div className="flex flex-col bg-white shadow-lg rounded-lg p-5 min-w-[400px] max-w-[600px]">
+          <div className="animate-pulse flex flex-col gap-3">
+            <h2 className="text-xl mb-4"></h2>
+            <div className="flex flex-row"></div>
+            <div className="flex-1 space-y-6 py-1">
+              <div className="h-2 bg-slate-300 rounded"></div>
+              <div className="h-2 bg-slate-300 rounded"></div>
+              <div className="h-2 bg-slate-300 rounded"></div>
+              <div className="space-y-3">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="h-2 bg-slate-300 rounded col-span-2"></div>
+                  <div className="h-2 bg-slate-300 rounded col-span-1"></div>
+                </div>
+                <div className="h-2 bg-slate-7300 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col bg-white shadow-lg rounded-lg p-5 min-w-[400px] max-w-[600px]">
+          <div className="animate-pulse flex flex-col gap-3">
+            <h2 className="text-xl mb-4"></h2>
+            <div className="flex flex-row"></div>
+            <div className="flex-1 space-y-6 py-1">
+              <div className="h-2 bg-slate-300 rounded"></div>
+              <div className="h-2 bg-slate-300 rounded"></div>
+              <div className="h-2 bg-slate-300 rounded"></div>
+              <div className="space-y-3">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="h-2 bg-slate-300 rounded col-span-2"></div>
+                  <div className="h-2 bg-slate-300 rounded col-span-1"></div>
+                </div>
+                <div className="h-2 bg-slate-7300 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -167,10 +205,17 @@ export default function VotingPage({ searchParams }) {
             ))}
           </div>
         ) : (
-          <div className="w-full flex justify-center">
-            <p className="text-center">
-              Não há votações disponíveis no momento.
+          <div className="w-full flex flex-col justify-center items-center gap-5">
+            <p className="text-lg text-center font-normal">
+              O nosso sistema não encontrou nenhuma votação. Experimente criar
+              uma
             </p>
+            <Link
+              className="text-lg py-2 px-3 font-semibold text-white bg-primaryLight rounded-lg max-w-[220px] hover:bg-primary"
+              href={"/votacoes/criar"}
+            >
+              Crie a sua votação aqui!
+            </Link>
           </div>
         )}
       </div>

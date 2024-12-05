@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { FaInstagram, FaTwitter } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaLinkedin } from "react-icons/fa";
 
@@ -111,7 +111,7 @@ const Footer = () => {
 
           {/* Follow Us Column */}
           <div className="w-full sm:w-1/2 md:w-1/4 px-4">
-            <h4 className="text-white text-lg font-medium mb-8 capitalize relative pb-2 after:content-[''] after:w-12 after:h-[2px] after:bg-primaryLight after:absolute after:left-0 after:bottom-0">
+            <h4 className="text-white text-xl font-medium mb-8 capitalize relative pb-2 after:content-[''] after:w-12 after:h-[2px] after:bg-primaryLight after:absolute after:left-0 after:bottom-0">
               follow us
             </h4>
             <div className="flex flex-wrap gap-4">
