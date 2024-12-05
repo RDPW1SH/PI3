@@ -16,7 +16,7 @@ export async function POST(req) {
         //console.log(email, password, repeatPassword, username)
 
         if(!email || !password || !repeatPassword || !username) {
-            return NextResponse.json({message: "Make sure every value is not null"}, {status: 400})
+            return NextResponse.json({message: "Verifique se deixou algum campo vazio"}, {status: 400})
         }
         if(password !== repeatPassword) {
             return NextResponse.json({message: "As senhas não correspondem"}, {status: 400})
@@ -25,6 +25,7 @@ export async function POST(req) {
         await connectToDB()
 
         const user = await Users.findOne({ where: { email: email } });
+
         // console.log("User:" + user);
         if (user !== null) {
 
@@ -42,7 +43,7 @@ export async function POST(req) {
                 slug: username.toLowerCase(),
             })
                 
-            return NextResponse.json({ message: `User criado com sucesso`}, { status: 201 })
+            return NextResponse.json({ message: `User criado com sucesso`}, { status: 200 })
 
             
         }

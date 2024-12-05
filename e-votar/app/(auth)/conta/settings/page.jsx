@@ -6,14 +6,15 @@ import { FaCamera } from "react-icons/fa";
 const UserProfile = () => {
   const { data: session } = useSession();
   const [userData, setUserData] = useState({
-    fullName: "",
     username: "",
     createdAt: "",
+    password: "",
     email: "",
   });
   const [newPhoto, setNewPhoto] = useState(null);
 
   // Fetch user data when the session is loaded
+
   useEffect(() => {
     if (session) {
       // Fetch user data from the API using the session's user ID
@@ -27,7 +28,6 @@ const UserProfile = () => {
         .then((res) => res.json())
         .then((data) => {
           setUserData({
-            fullName: data.fullName,
             username: data.username,
             email: data.email,
             createdAt: data.createdAt,
@@ -51,7 +51,7 @@ const UserProfile = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id: session.user.id, userData, newPhoto }), // Envia os novos dados
+      body: JSON.stringify({ id: session.user.id, userData }), // Envia os novos dados
     })
       .then((res) => res.json())
       .then((data) => {
@@ -114,17 +114,6 @@ const UserProfile = () => {
         <div className="flex flex-col gap-6">
           <div className="flex gap-4">
             <div className="w-full">
-              <label className="block text-gray-700">Nome Completo</label>
-              <input
-                type="text"
-                value={userData.fullName}
-                onChange={(e) =>
-                  setUserData({ ...userData, fullName: e.target.value })
-                }
-                className="border border-gray-300 p-2 rounded-md w-full"
-              />
-            </div>
-            <div className="w-full">
               <label className="block text-gray-700">Username</label>
               <input
                 type="text"
@@ -144,6 +133,8 @@ const UserProfile = () => {
               <input
                 type="password"
                 className="border border-gray-300 p-2 rounded-md w-full"
+                disabled
+                value={"********"}
               />
             </div>
             <div className="w-full">
@@ -151,6 +142,10 @@ const UserProfile = () => {
               <input
                 type="password"
                 className="border border-gray-300 p-2 rounded-md w-full"
+                value={userData.password}
+                onChange={(e) =>
+                  setUserData({ ...userData, username: e.target.value })
+                }
               />
             </div>
           </div>
