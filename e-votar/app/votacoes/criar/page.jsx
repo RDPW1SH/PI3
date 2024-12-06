@@ -38,10 +38,8 @@ const Criar = () => {
     e.preventDefault();
 
     try {
+
       const userId = session.user.id;
-      console.log("titulo: ", title);
-      console.log("id: ", userId);
-      console.log("opçoes: ", options);
       const res = await fetch("/api/votacoes/criar", {
         method: "POST",
         headers: {
@@ -129,6 +127,7 @@ const Criar = () => {
               className="rounded-full bg-primary text-white hover:bg-primaryDark w-10 h-10 p-2 cursor-pointer"
               onClick={handleNewBar}
             />
+            <div>
             <DatePicker
               className="bg-primary text-white p-1 hover:bg-primaryLight rounded-md cursor-pointer focus:outline-none"
               selected={startDate}
@@ -140,6 +139,8 @@ const Criar = () => {
               dateFormat="Pp"
               locale={pt}
             />
+            </div>
+            
           </div>
 
           <button

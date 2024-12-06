@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { FaCamera } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const UserProfile = () => {
   const { data: session } = useSession();
@@ -9,9 +10,11 @@ const UserProfile = () => {
     username: "",
     createdAt: "",
     password: "",
+    newPassword: "",
     email: "",
   });
-  const [newPhoto, setNewPhoto] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
 
   // Fetch user data when the session is loaded
 
@@ -44,20 +47,28 @@ const UserProfile = () => {
     setNewPhoto(e.target.files[0]);
   };
 
-  const handleUpdate = () => {
-    // Send the updated data to the API
-    fetch(`/api/user/updateProfile`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: session.user.id, userData }), // Envia os novos dados
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        alert("Perfil atualizado com sucesso!");
+  const handleUpdate = async () => {
+    
+    try {
+      const res = await fetch('/api/user/updateProfile', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: session.user.id, userData }), 
       })
-      .catch((error) => console.error("Erro ao atualizar o perfil:", error));
+      const data = res.json();
+      if(res.ok) {
+        signOut();
+        router.push('/login')
+        
+      } else {
+        setErrorMessage(res.message);
+      }
+
+    } catch (error) {
+      console.log("Erro handleUpdate(): " + error);
+    }
   };
 
   const triggerFileInput = () => {
@@ -75,6 +86,9 @@ const UserProfile = () => {
             className="relative cursor-pointer w-28 h-28"
             onClick={triggerFileInput}
           >
+            {/*
+             * 
+            
             <img
               src={
                 newPhoto
@@ -83,7 +97,7 @@ const UserProfile = () => {
               }
               alt="Foto de perfil"
               className="rounded-full w-full h-full object-cover"
-            />
+            />*/}
             <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-50 hover:bg-opacity-50 z-10">
               <FaCamera className="text-white text-2xl opacity-0 hover:opacity-100 transition-opacity duration-300" />
             </div>
@@ -95,7 +109,6 @@ const UserProfile = () => {
             onChange={handlePhotoUpload}
             accept="image/*"
           />
-          <h2 className="text-xl font-semibold">{userData.fullName}</h2>
           <p className="text-gray-500">@{userData.username}</p>
           <p className="text-gray-400 text-sm">
             Membro desde:{" "}
@@ -111,6 +124,7 @@ const UserProfile = () => {
       {/* Coluna Direita: Formulário de Edição do Perfil */}
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl">
         <h1 className="text-2xl font-semibold mb-6">Editar Perfil</h1>
+        {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
         <div className="flex flex-col gap-6">
           <div className="flex gap-4">
             <div className="w-full">
@@ -129,22 +143,26 @@ const UserProfile = () => {
           {/* Senha */}
           <div className="flex gap-4">
             <div className="w-full">
-              <label className="block text-gray-700">Senha</label>
+              <label className="block text-gray-700">Senha atual</label>
               <input
                 type="password"
                 className="border border-gray-300 p-2 rounded-md w-full"
                 disabled
-                value={"********"}
+                value={userData.newPassword}
+                placeholder="Digite a sua passe atual para alterar os seus dados"
+                onChange={(e) =>
+                  setUserData({ ...userData, newPassword: e.target.value })
+                }
               />
             </div>
             <div className="w-full">
-              <label className="block text-gray-700">Confirmar Senha</label>
+              <label className="block text-gray-700">Nova Senha</label>
               <input
                 type="password"
                 className="border border-gray-300 p-2 rounded-md w-full"
                 value={userData.password}
                 onChange={(e) =>
-                  setUserData({ ...userData, username: e.target.value })
+                  setUserData({ ...userData, password: e.target.value })
                 }
               />
             </div>

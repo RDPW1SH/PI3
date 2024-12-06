@@ -29,7 +29,7 @@ export async function POST(req) {
         // console.log("User:" + user);
         if (user !== null) {
 
-            return NextResponse.json({ message: "An account with the following email already exists" }, { status: 400 })
+            return NextResponse.json({ message: "Este email já está associado a uma conta" }, { status: 400 })
 
         } else {
 
