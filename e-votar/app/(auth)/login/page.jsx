@@ -6,17 +6,16 @@ import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
   
-  const {data: session} = useSession();
+  const {data: session, status} = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
-
-  if(session) {
+  if(status === "authenticated") {
     router.push('/');
   }
-  
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
@@ -32,6 +31,8 @@ const LoginPage = () => {
       setErrorMessage(res.error);
     }
   };
+
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-animated p-5">

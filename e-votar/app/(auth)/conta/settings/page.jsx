@@ -16,9 +16,8 @@ const UserProfile = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
-  // Fetch user data when the session is loaded
-
   useEffect(() => {
+
     if (session) {
       // Fetch user data from the API using the session's user ID
       fetch(`/api/user/profile`, {
@@ -43,13 +42,10 @@ const UserProfile = () => {
     }
   }, [session]);
 
-  const handlePhotoUpload = (e) => {
-    setNewPhoto(e.target.files[0]);
-  };
-
   const handleUpdate = async () => {
     
     try {
+      console.log(userData)
       const res = await fetch('/api/user/updateProfile', {
         method: "POST",
         headers: {
@@ -57,10 +53,12 @@ const UserProfile = () => {
         },
         body: JSON.stringify({ id: session.user.id, userData }), 
       })
+
       const data = res.json();
+
       if(res.ok) {
         signOut();
-        router.push('/login')
+        router.push('/login');
         
       } else {
         setErrorMessage(res.message);
@@ -71,44 +69,19 @@ const UserProfile = () => {
     }
   };
 
-  const triggerFileInput = () => {
-    document.getElementById("fileInput").click();
-  };
+  
 
   if (!session) return <div>Carregando...</div>;
 
   return (
     <div className="flex flex-col md:flex-row w-full p-5 gap-10 items-start justify-center">
       {/* Coluna Esquerda: Informações e Foto do Utilizador */}
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-xs">
-        <div className="flex flex-col items-center">
-          <div
-            className="relative cursor-pointer w-28 h-28"
-            onClick={triggerFileInput}
-          >
-            {/*
-             * 
+      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-xs flex flex-col gap-2 items-center">
+        <div className="flex flex-col items-center gap-1">
+          
+           
             
-            <img
-              src={
-                newPhoto
-                  ? URL.createObjectURL(newPhoto)
-                  : "https://via.placeholder.com/100"
-              }
-              alt="Foto de perfil"
-              className="rounded-full w-full h-full object-cover"
-            />*/}
-            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-50 hover:bg-opacity-50 z-10">
-              <FaCamera className="text-white text-2xl opacity-0 hover:opacity-100 transition-opacity duration-300" />
-            </div>
           </div>
-          <input
-            type="file"
-            id="fileInput"
-            className="hidden"
-            onChange={handlePhotoUpload}
-            accept="image/*"
-          />
           <p className="text-gray-500">@{userData.username}</p>
           <p className="text-gray-400 text-sm">
             Membro desde:{" "}
@@ -118,7 +91,8 @@ const UserProfile = () => {
               year: "numeric",
             })}{" "}
           </p>
-        </div>
+          <button onClick={() => signOut()} className="p-2 bg-red-400 text-white rounded-md hover:bg-red-500">Fazer logout</button>
+        
       </div>
 
       {/* Coluna Direita: Formulário de Edição do Perfil */}
@@ -147,22 +121,21 @@ const UserProfile = () => {
               <input
                 type="password"
                 className="border border-gray-300 p-2 rounded-md w-full"
-                disabled
-                value={userData.newPassword}
-                placeholder="Digite a sua passe atual para alterar os seus dados"
+                value={userData.password}
+                placeholder="Digite a sua senha atual para alterar os seus dados"
                 onChange={(e) =>
-                  setUserData({ ...userData, newPassword: e.target.value })
+                  setUserData({ ...userData, password: e.target.value })
                 }
-              />
+            />
             </div>
             <div className="w-full">
               <label className="block text-gray-700">Nova Senha</label>
               <input
                 type="password"
                 className="border border-gray-300 p-2 rounded-md w-full"
-                value={userData.password}
+                value={userData.newPassword}
                 onChange={(e) =>
-                  setUserData({ ...userData, password: e.target.value })
+                  setUserData({ ...userData, newPassword: e.target.value })
                 }
               />
             </div>

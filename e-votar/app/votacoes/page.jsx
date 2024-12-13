@@ -42,36 +42,74 @@ export default function VotingPage({ searchParams }) {
   async function handleVote(pollId, optionId) {
     if (!session) {
       router.push("/login");
-    } else {
-      try {
-        const res = await fetch("/api/votacoes/votos", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            pollId,
-            optionId,
-            userId: session?.user?.id,
-          }),
+      return;
+    }
+  
+    try {
+      const res = await fetch("/api/votacoes/votos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pollId,
+          optionId,
+          userId: session?.user?.id,
+        }),
+      });
+  
+      if (res.ok) {
+        setPolls((prevPolls) =>
+          prevPolls.map((poll) => {
+            if (poll.id === pollId) {
+              const updatedVotes = poll.votes.filter(
+                (vote) => vote.userId !== session.user.id
+              );
+  
+              return {
+                ...poll,
+                votes: [...updatedVotes, { userId: session.user.id, optionId }],
+              };
+            }
+            return poll;
+          })
+        );
+  
+        toast.success("O seu voto foi registado com sucesso", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
         });
-
-        if (res.ok) {
-          router.refresh();
-          toast.success("O seu voto foi registado com sucesso", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            progress: undefined,
-            theme: "light",
-          });
-        }
-      } catch (error) {
-        console.error("Erro ao registrar voto:", error);
+      } else {
+        const errorData = await res.json();
+        toast.error(errorData.message || "Erro ao registrar voto", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+        });
       }
+    } catch (error) {
+      console.error("Erro ao registrar voto:", error);
+      toast.error("Erro ao registrar voto", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
 

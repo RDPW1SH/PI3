@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   const { id, userData } = await req.json();
 
+  console.log(userData);
   if (!id || !userData.username || !userData.email || !userData.password) {
     return NextResponse.json(
       { error: "Dados incompletos ou inválidos" },
