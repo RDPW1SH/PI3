@@ -17,7 +17,7 @@ const Footer = () => {
             <ul>
               <li className="mb-3">
                 <Link
-                  href={"/"}
+                  href={"/about"}
                   id="footer-links-animation"
                   className="text-white text-lg font-normal capitalize"
                 >
