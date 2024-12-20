@@ -169,12 +169,15 @@ export default function VotingPage({ searchParams }) {
         {polls ? (
           <div className="flex flex-row gap-4 flex-wrap justify-center">
             {polls.map((poll) => (
+  
               <div
                 key={poll.id}
                 className="flex flex-col bg-white shadow-lg rounded-lg p-5 w-auto min-w-[400px] max-w-[600px]"
               >
                 {/* Título da votação */}
-                <h2 className="text-xl font-semibold mb-4">{poll.title}</h2>
+                <Link href={`/votacoes/votacao/${poll.id}`}>
+                  <h2 className="text-xl font-semibold mb-4">{poll.title}</h2>
+                </Link>
 
                 {/* Opções de votação */}
                 <div className="flex flex-col gap-3">
@@ -216,7 +219,7 @@ export default function VotingPage({ searchParams }) {
                           ) : (
                             <FaVoteYea
                               onClick={() => handleVote(poll.id, option.id)}
-                              className="text-black w-full hover:cursor-pointer"
+                              className="text-black w-full hover:cursor-pointer z-50"
                             />
                           )}
                         </div>
@@ -240,6 +243,7 @@ export default function VotingPage({ searchParams }) {
                   </div>
                 </div>
               </div>
+              
             ))}
           </div>
         ) : (
