@@ -1,7 +1,7 @@
 import { connectToDB } from "@/lib/db";
 import { PollOptions, Polls, Votes } from "@/models";
 import { NextResponse } from "next/server";
-import { Op } from "sequelize"; 
+import { Op} from "sequelize"; 
 
 export async function GET(req) {
 
@@ -21,7 +21,12 @@ export async function GET(req) {
         { model: PollOptions, as: "options" },
         { model: Votes, as: "votes" },
       ],
-      where: whereCondition,
+      where: {
+        ...whereCondition, 
+        end_date: {
+          [Op.gt]: new Date(), // Garante que end_date é maior que a data atual
+        },
+      },
     });
 
     if (polls.length > 0) {
