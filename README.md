@@ -23,9 +23,17 @@ Para proceder à instalação do projeto é favor seguir estes passos:
 	 ```bash
 	 npm install 
 	 
-3. **Abrir o documento ".env" e colocar os detalhes do seu MySQL Workbench**
+3. **Abrir o documento ".env.local" e colocar os detalhes do seu MySQL Workbench**
 		
-		// TODO
+	```bash
+ 	MYSQL_HOST = 'localhost'
+	MYSQL_USER = 'nome do utilizador da base de dados'
+	MYSQL_PASSWORD = 'nome da password do utilizador da base de dados'
+	MYSQL_DB = 'evotar'
+	MYSQL_PORT = '3306'
+	DATABASE_URL=mysql://<MYSQL_USER>:<MYSQL_PASSWORD>@localhost:3306/evotar
+	SYNC_DB = 'true'
+	NEXTAUTH_SECRET = 'dYH89SDu9j23jklDFNDs89sdjksbDHIOK03jcxXdn=
 		
 4. **Criar uma base de dados no MySql Workbench com o nome "evotar"**
 
