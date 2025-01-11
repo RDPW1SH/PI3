@@ -45,7 +45,61 @@ Para proceder à instalação do projeto é favor seguir estes passos:
     npm run dev
 
 6. **Pesquisar no browser à escolha http://localhost:3000**
-	
+
+## 📖 SQL Queries
+
+### Para mostrar as funcionalidades do site é melhor ter conteúdo na base de dados para testar, por isso deixo aqui algumas queries
+
+### **⚠️ Importante ⚠️** entrar na página de login do website antes de colocar estas queries, de modo ao website criar automaticamente as tabelas e colunas de cada uma
+
+1. **palavra-passe** do **admin é admin**, sendo a do resto dos **utilizadores: password**, as passwords nas queries já estão a contar com encriptação.
+   
+ 	```bash
+ 	use evotar;
+
+	INSERT INTO Users (username, password, email, slug, isAdmin, createdAt, updatedAt)
+	VALUES 
+	('pedro', '$10$6Nc/E6YpqyqkhNsmcaipOO3.kk5axnipKm/bsXOJ9Tk7JYoeZTyRG', 'pedro12@gmail.com', 'pedro', false, NOW(), NOW()),
+	('admin', '$10$U8TEm5ybvSJWAVAO/M7.7OIVm584TbGmF87DKshSjDHFJC0fMTxfK', 'admin@gmail.com', 'admin', true, NOW(), NOW()),
+	('joao', '$10$6Nc/E6YpqyqkhNsmcaipOO3.kk5axnipKm/bsXOJ9Tk7JYoeZTyRG', 'joao@gmail.com', 'joao', false, NOW(), NOW()),
+	('teste', '$10$6Nc/E6YpqyqkhNsmcaipOO3.kk5axnipKm/bsXOJ9Tk7JYoeZTyRG', 'teste@gmail.com', 'teste', false, NOW(), NOW());
+
+
+	INSERT INTO Polls (title, userId, start_date, end_date, visibility, createdAt, updatedAt)
+	VALUES 
+	('Qual é melhor?', 1, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'visible', NOW(), NOW()),
+	('Melhor tipo de formato de data?', 1, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'visible', NOW(), NOW()),
+	('Quanto ganhas?', 1, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'visible', NOW(), NOW()),
+	('Anos de experiência profissional', 1, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'visible', NOW(), NOW()),
+	('Votação teste', 1, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'visible', NOW(), NOW());
+
+	INSERT INTO Poll_Options (optionTitle, pollId, createdAt, updatedAt)
+	VALUES
+	('Pizza', 1, NOW(), NOW()),
+	('Hamburger', 1, NOW(), NOW()),
+	('dia-mês-ano', 2, NOW(), NOW()),
+	('ano-mês-dia', 2, NOW(), NOW()),
+	('mês-dia-ano', 2, NOW(), NOW()),
+	('Salário minimo', 3, NOW(), NOW()),
+	('1000€ a 2000€', 3, NOW(), NOW()),
+	('2000€ - 3000€', 3, NOW(), NOW()),
+	('3000€+', 3, NOW(), NOW()),
+	('Nenhuma', 4, NOW(), NOW()),
+	('Junior', 4, NOW(), NOW()),
+	('Sénior', 4, NOW(), NOW()),
+	('teste 1', 5, NOW(), NOW()),
+	('teste 2', 5, NOW(), NOW()),
+	('teste 3', 5, NOW(), NOW()),
+	('teste 4', 5, NOW(), NOW());
+
+
+	INSERT INTO Votes (optionId, userId, pollId, createdAt, updatedAt)
+	VALUES
+	(1, 2, 1, NOW(), NOW()), (3, 2, 2, NOW(), NOW()), (6, 2, 3, NOW(), NOW()), (10, 2, 4, NOW(), NOW()), (13, 2, 5, NOW(), NOW()),
+	(2, 3, 1, NOW(), NOW()), (4, 3, 2, NOW(), NOW()), (7, 3, 3, NOW(), NOW()), (11, 3, 4, NOW(), NOW()), (14, 3, 5, NOW(), NOW()),
+	(1, 4, 1, NOW(), NOW()), (3, 4, 2, NOW(), NOW()), (9, 4, 3, NOW(), NOW()), (12, 4, 4, NOW(), NOW()), (14, 4, 5, NOW(), NOW()),
+	(1, 5, 1, NOW(), NOW()), (3, 5, 2, NOW(), NOW()), (6, 5, 3, NOW(), NOW()), (10, 5, 4, NOW(), NOW()), (13, 5, 5, NOW(), NOW());
+
 ## ✍️ Documentação
 
 ### React & Frameworks
