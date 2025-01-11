@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css"; // react-toastify css
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+// Icons
 import { FaVoteYea } from "react-icons/fa";
 
 export default function VotingPage({ searchParams }) {
@@ -44,7 +45,7 @@ export default function VotingPage({ searchParams }) {
       router.push("/login");
       return;
     }
-  
+
     try {
       const res = await fetch("/api/votacoes/votos", {
         method: "POST",
@@ -57,7 +58,7 @@ export default function VotingPage({ searchParams }) {
           userId: session?.user?.id,
         }),
       });
-  
+
       if (res.ok) {
         setPolls((prevPolls) =>
           prevPolls.map((poll) => {
@@ -65,7 +66,7 @@ export default function VotingPage({ searchParams }) {
               const updatedVotes = poll.votes.filter(
                 (vote) => vote.userId !== session.user.id
               );
-  
+
               return {
                 ...poll,
                 votes: [...updatedVotes, { userId: session.user.id, optionId }],
@@ -74,7 +75,7 @@ export default function VotingPage({ searchParams }) {
             return poll;
           })
         );
-  
+
         toast.success("O seu voto foi registado com sucesso", {
           position: "top-right",
           autoClose: 3000,
@@ -169,7 +170,6 @@ export default function VotingPage({ searchParams }) {
         {polls ? (
           <div className="flex flex-row gap-4 flex-wrap justify-center">
             {polls.map((poll) => (
-  
               <div
                 key={poll.id}
                 className="flex flex-col bg-white shadow-lg rounded-lg p-5 w-auto min-w-[400px] max-w-[600px]"
@@ -243,7 +243,6 @@ export default function VotingPage({ searchParams }) {
                   </div>
                 </div>
               </div>
-              
             ))}
           </div>
         ) : (

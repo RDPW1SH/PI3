@@ -18,7 +18,7 @@ const PollOptions = sequelize.define('Poll_options', {
         allowNull: false,
     },
 }, {
-
+    timestamps: true,
 });
 
 export default PollOptions;

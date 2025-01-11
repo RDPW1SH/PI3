@@ -34,6 +34,7 @@ const handler = NextAuth({
               return {
                 id: user.id,
                 email: user.email,
+                isAdmin: user.isAdmin
               };
             } else {
               throw new Error("Wrong email/password");
@@ -50,13 +51,15 @@ const handler = NextAuth({
       if (token) {
         session.user.id = token.id;
         session.user.email = token.email;
+        session.user.isAdmin = token.isAdmin;
       }
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.email = user.email
+        token.email = user.email;
+        token.isAdmin = user.isAdmin;
       }
       return token;
     },
