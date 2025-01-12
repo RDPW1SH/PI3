@@ -17,14 +17,14 @@ Disponibilizei um guia passo a passo para o download e setup do projeto, assim c
 	/about
 	/admin
 	/conta/settings
-    	/forgot-password
-     	/login
-      	/not-found
+    /forgot-password
+     /login
+      /not-found
 	/register
 	/unauthorized
 	/votacoes
-    	/votacoes/criar
-     	/votacoes/votacao/{id}
+    /votacoes/criar
+     /votacoes/votacao/{id}
 
 ## 📦 Instalação
 
