@@ -1,8 +1,9 @@
+
 # Projeto e-votar 🗳️🛜
 
 O projeto e-votar, desenvolvido no âmbito da disciplina de **Projeto Integrado 3**, é um projeto que tem como objetivo criar uma plataforma online de votações de diversos tópicos.
 
-Disponibilizei um guia passo a passo para o download e setup do projeto, assim como queries para colocar na base de dados
+Disponibilizei um guia passo a passo para o download e setup do projeto, assim como queries para colocar na base de dados neste documento
 
 ## 🛠️ Tecnologias usadas
 
@@ -10,6 +11,20 @@ Disponibilizei um guia passo a passo para o download e setup do projeto, assim c
    💾 **Database**: MySQL Workbench (local)
    ⚙️ **Backend**: Sequelize
    🚅 **Frameworks**: TailwindCSS 
+
+## 🔎Páginas do website
+
+	/about
+	/admin
+	/conta/settings
+    	/forgot-password
+     	/login
+      	/not-found
+	/register
+	/unauthorized
+	/votacoes
+    	/votacoes/criar
+     	/votacoes/votacao/{id}
 
 ## 📦 Instalação
 
